@@ -1,0 +1,24 @@
+{
+  "name": "swiftsale",
+  "version": "1.0.0",
+  "description": "e-commerce app created with react js and nest js",
+  "scripts": {
+    "dev": "npx turbo dev",
+    "start": "npx turbo start"
+  },
+  "keywords": [
+    "e-commerce",
+    "react",
+    "nest"
+  ],
+  "author": "Kurniawan Cristianto",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "^3.0.3",
+    "turbo": "^1.10.13"
+  },
+  "workspaces": [
+    "client",
+    "server"
+  ]
+}
