@@ -11,6 +11,7 @@ export class CreateProductDto {
   @Min(1)
   @IsInt()
   @IsNotEmpty()
+  @Transform(({ value }) => +value)
   price: number;
 
   @Length(1)

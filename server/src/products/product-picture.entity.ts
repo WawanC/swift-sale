@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
 import { Product } from './product.entity';
 
 @Entity({ name: 'product_pictures' })
@@ -9,10 +9,6 @@ export class ProductPicture {
   @Column('varchar')
   url: string;
 
-  @ManyToOne(() => Product, (product) => product.pictures, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
-  @JoinColumn({ name: 'product_id' })
+  @ManyToOne(() => Product, (product) => product.pictures)
   product: Product;
 }
