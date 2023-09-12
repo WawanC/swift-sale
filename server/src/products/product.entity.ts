@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { ProductPicture } from './product-picture.entity';
 
-@Entity()
+@Entity({ name: 'products' })
 export class Product {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -13,4 +14,7 @@ export class Product {
 
   @Column('text')
   description: string;
+
+  @OneToMany(() => ProductPicture, (picture) => picture.product)
+  pictures: ProductPicture[];
 }

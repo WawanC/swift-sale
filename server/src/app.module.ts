@@ -8,6 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import * as process from 'process';
 import { Product } from './products/product.entity';
 import { ProductsModule } from './products/products.module';
+import { ProductPicture } from './products/product-picture.entity';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { ProductsModule } from './products/products.module';
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: process.env.DATABASE_URL,
-      entities: [Product],
+      entities: [Product, ProductPicture],
       synchronize: true,
     }),
     ProductsModule,
