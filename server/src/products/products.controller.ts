@@ -8,27 +8,22 @@ import {
   Post,
   Put,
   UploadedFiles,
-  UseInterceptors,
 } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { ProductsService } from './products.service';
 import { ProductParamDto } from './dto/product-param.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { FilesInterceptor } from '@nestjs/platform-express';
-import * as path from 'path';
 import { UploadApiResponse } from 'cloudinary';
+import { ValidPictures } from './decorators/valid-pictures.decorator';
 
 @Controller('products')
 export class ProductsController {
   constructor(private productsService: ProductsService) {}
   @Post()
-  @UseInterceptors(
-    FilesInterceptor('pictures', undefined, {
-      dest: path.join(__dirname, '..', '..', 'temp'),
-    }),
-  )
+  @ValidPictures()
   async create(
-    @UploadedFiles() pictures: Express.Multer.File[],
+    @UploadedFiles()
+    pictures: Express.Multer.File[],
     @Body() createProductDto: CreateProductDto,
   ) {
     let picturesData: UploadApiResponse[] = [];
