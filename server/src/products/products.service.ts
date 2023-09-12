@@ -41,11 +41,14 @@ export class ProductsService {
   }
 
   async findAll() {
-    return await this.productsRepository.find();
+    return await this.productsRepository.find({ relations: ['pictures'] });
   }
 
   async findOne(id: string) {
-    return await this.productsRepository.findOne({ where: { id: id } });
+    return await this.productsRepository.findOne({
+      where: { id: id },
+      relations: ['pictures'],
+    });
   }
 
   async update(
