@@ -1,21 +1,21 @@
-import { IsInt, IsNotEmpty, IsString, Length, Min } from 'class-validator';
+import { IsInt, IsOptional, IsString, Length, Min } from 'class-validator';
 import { Transform } from 'class-transformer';
 
-export class CreateProductDto {
+export class UpdateProductDto {
   @Length(1)
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @Transform(({ value }) => typeof value === 'string' && value.trim())
-  title: string;
+  title?: string;
 
   @Min(1)
   @IsInt()
-  @IsNotEmpty()
-  price: number;
+  @IsOptional()
+  price?: number;
 
   @Length(1)
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @Transform(({ value }) => typeof value === 'string' && value.trim())
-  description: string;
+  description?: string;
 }
