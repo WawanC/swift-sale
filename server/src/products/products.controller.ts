@@ -1,6 +1,14 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { ProductsService } from './products.service';
+import { ProductParamDto } from './dto/product-param.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -26,6 +34,20 @@ export class ProductsController {
     return {
       message: 'Success',
       products: products,
+    };
+  }
+
+  @Get(':id')
+  async findOne(@Param() params: ProductParamDto) {
+    const product = await this.productsService.findOne(params.id);
+
+    if (!product) {
+      throw new NotFoundException('Product not found');
+    }
+
+    return {
+      message: 'Success',
+      product: product,
     };
   }
 }
