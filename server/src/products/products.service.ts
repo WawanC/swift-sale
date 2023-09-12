@@ -30,10 +30,16 @@ export class ProductsService {
     product: Product,
     data: { title?: string; price?: number; description?: string },
   ) {
-    product.title = data.title || product.title;
-    product.price = data.price || product.price;
-    product.description = data.description || product.description;
+    product.title = data.title ? data.title.trim() : product.title;
+    product.price = data.price ? +data.price : product.price;
+    product.description = data.description
+      ? data.description.trim()
+      : product.description;
 
     return await this.productsRepository.save(product);
+  }
+
+  async delete(product: Product) {
+    return await this.productsRepository.remove(product);
   }
 }
