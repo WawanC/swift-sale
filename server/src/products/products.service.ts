@@ -1,0 +1,20 @@
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Product } from './product.entity';
+import { Repository } from 'typeorm';
+
+@Injectable()
+export class ProductsService {
+  constructor(
+    @InjectRepository(Product) private productsRepository: Repository<Product>,
+  ) {}
+
+  async create(data: { title: string; price: number; description: string }) {
+    const newProduct = this.productsRepository.create({
+      title: data.title.trim(),
+      price: +data.price,
+      description: data.description.trim(),
+    });
+    return await this.productsRepository.save(newProduct);
+  }
+}

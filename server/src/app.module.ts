@@ -6,7 +6,8 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as process from 'process';
-import { Product } from './product/product.entity';
+import { Product } from './products/product.entity';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { Product } from './product/product.entity';
       entities: [Product],
       synchronize: true,
     }),
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
