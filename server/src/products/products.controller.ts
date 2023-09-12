@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { ProductsService } from './products.service';
 
@@ -16,6 +16,16 @@ export class ProductsController {
     return {
       message: 'Success',
       product: newProduct,
+    };
+  }
+
+  @Get()
+  async findAll() {
+    const products = await this.productsService.findAll();
+
+    return {
+      message: 'Success',
+      products: products,
     };
   }
 }
