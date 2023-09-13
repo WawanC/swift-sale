@@ -50,14 +50,12 @@ export class ProductsService {
   }
 
   async delete(product: Product) {
+    await this.deletePictures(product);
     return await this.productsRepository.remove(product);
   }
 
   async storePictures(product: Product, pictures: Express.Multer.File[]) {
-    for (const oldPicture of product.pictures) {
-      await v2.uploader.destroy(oldPicture.public_id);
-      await this.productPicturesRepository.remove(oldPicture);
-    }
+    await this.deletePictures(product);
 
     for (const picture of pictures) {
       const uploadResponse = await v2.uploader.upload(picture.path, {
@@ -75,16 +73,10 @@ export class ProductsService {
     }
   }
 
-  // async updatePictures(product: Product, pictures: Express.Multer.File[]) {
-  //   // const oldPictures = await this.productPicturesRepository.find({
-  //   //   where: { product: { id: product.id } },
-  //   // });
-  //
-  //   for (const oldPicture of product.pictures) {
-  //     await v2.uploader.destroy(oldPicture.public_id);
-  //     await this.productPicturesRepository.remove(oldPicture);
-  //   }
-  //
-  //   await this.storePictures(product, pictures);
-  // }
+  async deletePictures(product: Product) {
+    for (const oldPicture of product.pictures) {
+      await v2.uploader.destroy(oldPicture.public_id);
+      await this.productPicturesRepository.remove(oldPicture);
+    }
+  }
 }
