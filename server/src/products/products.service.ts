@@ -14,15 +14,26 @@ export class ProductsService {
     private productPicturesRepository: Repository<ProductPicture>,
   ) {}
 
-  async create(data: { title: string; price: number; description: string }) {
-    const newProduct = this.productsRepository.create({
+  async create(data: {
+    title: string;
+    price: number;
+    description: string;
+    pictures: Express.Multer.File[];
+  }) {
+    const product = this.productsRepository.create({
       title: data.title.trim(),
       price: +data.price,
       description: data.description.trim(),
       pictures: [],
     });
 
-    return await this.productsRepository.save(newProduct);
+    const newProduct = await this.productsRepository.save(product);
+
+    if (data.pictures && data.pictures.length > 0) {
+      await this.storePictures(newProduct, data.pictures);
+    }
+
+    return newProduct;
   }
 
   async findAll() {
@@ -38,7 +49,12 @@ export class ProductsService {
 
   async update(
     product: Product,
-    data: { title?: string; price?: number; description?: string },
+    data: {
+      title?: string;
+      price?: number;
+      description?: string;
+      pictures: Express.Multer.File[];
+    },
   ) {
     product.title = data.title ? data.title.trim() : product.title;
     product.price = data.price ? +data.price : product.price;
@@ -46,7 +62,13 @@ export class ProductsService {
       ? data.description.trim()
       : product.description;
 
-    return await this.productsRepository.save(product);
+    const updatedProduct = await this.productsRepository.save(product);
+
+    if (data.pictures && data.pictures.length > 0) {
+      await this.storePictures(updatedProduct, data.pictures);
+    }
+
+    return updatedProduct;
   }
 
   async delete(product: Product) {

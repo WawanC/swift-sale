@@ -29,11 +29,8 @@ export class ProductsController {
       title: createProductDto.title,
       price: createProductDto.price,
       description: createProductDto.description,
+      pictures: pictures,
     });
-
-    if (pictures && pictures.length > 0) {
-      await this.productsService.storePictures(newProduct, pictures);
-    }
 
     return {
       message: 'Success',
@@ -83,11 +80,8 @@ export class ProductsController {
       title: updateProductDto.title,
       price: updateProductDto.price,
       description: updateProductDto.description,
+      pictures: pictures,
     });
-
-    if (pictures && pictures.length > 0) {
-      await this.productsService.storePictures(product, pictures);
-    }
 
     return {
       message: 'Success',
