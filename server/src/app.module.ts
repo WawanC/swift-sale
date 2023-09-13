@@ -6,9 +6,9 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as process from 'process';
-import { Product } from './products/product.entity';
+import { Product } from './products/entities/product.entity';
 import { ProductsModule } from './products/products.module';
-import { ProductPicture } from './products/product-picture.entity';
+import { ProductPicture } from './products/entities/product-picture.entity';
 
 @Module({
   imports: [

@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Product } from './product.entity';
+import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
 import { v2 } from 'cloudinary';
 import * as fs from 'fs/promises';
-import { ProductPicture } from './product-picture.entity';
+import { ProductPicture } from './entities/product-picture.entity';
 
 @Injectable()
 export class ProductsService {
