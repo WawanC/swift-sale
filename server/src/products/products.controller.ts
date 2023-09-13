@@ -13,7 +13,6 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { ProductsService } from './products.service';
 import { ProductParamDto } from './dto/product-param.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { UploadApiResponse } from 'cloudinary';
 import { ValidPictures } from './decorators/valid-pictures.decorator';
 
 @Controller('products')
@@ -26,17 +25,15 @@ export class ProductsController {
     pictures: Express.Multer.File[],
     @Body() createProductDto: CreateProductDto,
   ) {
-    let picturesData: UploadApiResponse[] = [];
-    if (pictures && pictures.length > 0) {
-      picturesData = await this.productsService.storePictures(pictures);
-    }
-
     const newProduct = await this.productsService.create({
       title: createProductDto.title,
       price: createProductDto.price,
       description: createProductDto.description,
-      pictures: picturesData,
     });
+
+    if (pictures && pictures.length > 0) {
+      await this.productsService.storePictures(newProduct, pictures);
+    }
 
     return {
       message: 'Success',
@@ -69,9 +66,12 @@ export class ProductsController {
   }
 
   @Put(':id')
+  @ValidPictures()
   async update(
     @Param() params: ProductParamDto,
     @Body() updateProductDto: UpdateProductDto,
+    @UploadedFiles()
+    pictures: Express.Multer.File[],
   ) {
     const product = await this.productsService.findOne(params.id);
 
@@ -84,6 +84,10 @@ export class ProductsController {
       price: updateProductDto.price,
       description: updateProductDto.description,
     });
+
+    if (pictures && pictures.length > 0) {
+      await this.productsService.storePictures(product, pictures);
+    }
 
     return {
       message: 'Success',

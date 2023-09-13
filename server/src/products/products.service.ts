@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './product.entity';
 import { Repository } from 'typeorm';
-import { UploadApiResponse, v2 } from 'cloudinary';
+import { v2 } from 'cloudinary';
 import * as fs from 'fs/promises';
 import { ProductPicture } from './product-picture.entity';
 
@@ -14,30 +14,15 @@ export class ProductsService {
     private productPicturesRepository: Repository<ProductPicture>,
   ) {}
 
-  async create(data: {
-    title: string;
-    price: number;
-    description: string;
-    pictures: UploadApiResponse[];
-  }) {
+  async create(data: { title: string; price: number; description: string }) {
     const newProduct = this.productsRepository.create({
       title: data.title.trim(),
       price: +data.price,
       description: data.description.trim(),
+      pictures: [],
     });
 
-    await this.productsRepository.save(newProduct);
-
-    for (const picture of data.pictures) {
-      const productPicture = this.productPicturesRepository.create({
-        public_id: picture.public_id,
-        url: picture.url,
-        product: newProduct,
-      });
-      await this.productPicturesRepository.save(productPicture);
-    }
-
-    return newProduct;
+    return await this.productsRepository.save(newProduct);
   }
 
   async findAll() {
@@ -68,21 +53,38 @@ export class ProductsService {
     return await this.productsRepository.remove(product);
   }
 
-  async storePictures(pictures: Express.Multer.File[]) {
-    const uploadResponses: UploadApiResponse[] = [];
-    for (const picture of pictures) {
-      // await fs.writeFile(
-      //   path.join(__dirname, '..', '..', 'pictures', picture.originalname),
-      //   picture.buffer,
-      // );
+  async storePictures(product: Product, pictures: Express.Multer.File[]) {
+    for (const oldPicture of product.pictures) {
+      await v2.uploader.destroy(oldPicture.public_id);
+      await this.productPicturesRepository.remove(oldPicture);
+    }
 
+    for (const picture of pictures) {
       const uploadResponse = await v2.uploader.upload(picture.path, {
         folder: 'swiftsale/products',
       });
       await fs.unlink(picture.path);
 
-      uploadResponses.push(uploadResponse);
+      const productPicture = this.productPicturesRepository.create({
+        public_id: uploadResponse.public_id,
+        url: uploadResponse.url,
+        product: product,
+      });
+
+      await this.productPicturesRepository.save(productPicture);
     }
-    return uploadResponses;
   }
+
+  // async updatePictures(product: Product, pictures: Express.Multer.File[]) {
+  //   // const oldPictures = await this.productPicturesRepository.find({
+  //   //   where: { product: { id: product.id } },
+  //   // });
+  //
+  //   for (const oldPicture of product.pictures) {
+  //     await v2.uploader.destroy(oldPicture.public_id);
+  //     await this.productPicturesRepository.remove(oldPicture);
+  //   }
+  //
+  //   await this.storePictures(product, pictures);
+  // }
 }

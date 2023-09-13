@@ -19,7 +19,6 @@ export function ValidPictures() {
           file: Express.Multer.File,
           cb: (error: Error | null, acceptFile: boolean) => void,
         ) {
-          console.log(file.size);
           if (!allowedTypes.includes(file.mimetype)) {
             return cb(
               new UnsupportedMediaTypeException(
