@@ -5,6 +5,10 @@ import ProductList from "../components/ProductList.tsx";
 const HomePage = () => {
   const getProducts = useGetProducts();
 
+  const refreshProducts = async () => {
+    await getProducts.fetchData();
+  };
+
   return (
     <main
       className={`flex flex-col items-center justify-center p-8 gap-8 flex-1 text-xl`}
@@ -20,7 +24,10 @@ const HomePage = () => {
       ) : (
         getProducts.data && (
           <section className={`w-3/4`}>
-            <ProductList products={getProducts.data} />
+            <ProductList
+              products={getProducts.data}
+              refreshProducts={refreshProducts}
+            />
           </section>
         )
       )}

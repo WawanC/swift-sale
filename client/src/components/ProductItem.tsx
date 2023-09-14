@@ -1,12 +1,23 @@
 import { Product } from "../types/product.ts";
-import { FC } from "react";
+import { FC, MouseEventHandler } from "react";
 import { Link } from "react-router-dom";
+import { useDeleteProduct } from "../hooks/Product.tsx";
 
 type Props = {
   product: Product;
+  refreshProducts: () => Promise<void>;
 };
 
 const ProductItem: FC<Props> = (props) => {
+  const deleteProduct = useDeleteProduct(props.product.id);
+
+  const onDeleteProduct: MouseEventHandler = async (e) => {
+    e.preventDefault();
+
+    await deleteProduct.mutate();
+    await props.refreshProducts();
+  };
+
   return (
     <Link
       to={`/products/${props.product.id}`}
@@ -32,6 +43,12 @@ const ProductItem: FC<Props> = (props) => {
           >
             Edit
           </Link>
+          <button
+            className={`bg-neutral-200 p-2 z-10`}
+            onClick={onDeleteProduct}
+          >
+            Delete
+          </button>
         </div>
       </div>
     </Link>

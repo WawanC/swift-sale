@@ -1,5 +1,6 @@
 import {
   CreateProductPayload,
+  DeleteProductResponse,
   GetProductResponse,
   GetProductsResponse,
   UpdateProductPayload,
@@ -49,4 +50,8 @@ export const updateProductApi = async (
     }
 
   await axios.put(`/api/products/${productId}`, formData);
+};
+
+export const deleteProductApi = async (productId: string) => {
+  await axios.delete<DeleteProductResponse>(`/api/products/${productId}`);
 };

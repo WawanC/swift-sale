@@ -34,3 +34,8 @@ export type GetProductResponse = {
   message: string;
   product: Product;
 };
+
+export type DeleteProductResponse = {
+  message: string;
+  product: Product;
+};
