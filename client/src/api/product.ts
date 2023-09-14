@@ -1,4 +1,4 @@
-import { CreateProductPayload } from "../types/product.ts";
+import { CreateProductPayload, GetProductsResponse } from "../types/product.ts";
 import axios from "axios";
 
 export const createProductApi = async (data: CreateProductPayload) => {
@@ -14,4 +14,9 @@ export const createProductApi = async (data: CreateProductPayload) => {
     }
 
   await axios.post("/api/products", formData);
+};
+
+export const getProductsApi = async () => {
+  const response = await axios.get<GetProductsResponse>("/api/products");
+  return response.data.products;
 };

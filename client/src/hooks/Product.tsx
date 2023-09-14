@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { CreateProductPayload } from "../types/product.ts";
-import { createProductApi } from "../api/product.ts";
+import { useEffect, useState } from "react";
+import { CreateProductPayload, Product } from "../types/product.ts";
+import { createProductApi, getProductsApi } from "../api/product.ts";
 import { ApiErrorResponse } from "../types/error.ts";
 
 export const useCreateProduct = () => {
@@ -23,4 +23,31 @@ export const useCreateProduct = () => {
   };
 
   return { mutate, isLoading, error };
+};
+
+export const useGetProducts = () => {
+  const [data, setData] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchData = async () => {
+    try {
+      setIsLoading(true);
+      const products = await getProductsApi();
+      setData(products);
+    } catch (e) {
+      const err = e as ApiErrorResponse;
+
+      if (err.response?.data) setError(err.response.data.message[0]);
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  return { data, isLoading, error, fetchData };
 };
