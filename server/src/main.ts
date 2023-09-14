@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 import { v2 } from 'cloudinary';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,6 +12,7 @@ async function bootstrap() {
 
   const configService = app.get<ConfigService>(ConfigService);
   const port = configService.get<number>('PORT');
+  app.use(cookieParser(configService.get<string>('COOKIE_SECRET')));
 
   v2.config({
     cloud_name: configService.get('CLOUDINARY_CLOUD_NAME'),
