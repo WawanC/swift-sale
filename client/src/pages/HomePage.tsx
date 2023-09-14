@@ -20,7 +20,7 @@ const HomePage = () => {
         Create New Product
       </Link>
       {getProducts.error ? (
-        <span>{getProducts.error}</span>
+        <span>{getProducts.error.message}</span>
       ) : getProducts.isLoading ? (
         <span>Loading...</span>
       ) : (

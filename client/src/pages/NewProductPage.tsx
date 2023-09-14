@@ -44,7 +44,7 @@ const NewProductPage = () => {
         <>
           {createProduct.error && (
             <span className={`text-2xl text-red-500`}>
-              {createProduct.error}
+              {createProduct.error.message}
             </span>
           )}
           <form
@@ -97,7 +97,6 @@ const NewProductPage = () => {
               <input
                 type="file"
                 name={`picture`}
-                required={true}
                 className={`w-1/2`}
                 onChange={(e) => {
                   setEnteredPictures(e.target.files);

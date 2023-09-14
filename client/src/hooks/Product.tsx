@@ -9,7 +9,9 @@ import { ApiErrorResponse } from "../types/error.ts";
 
 export const useCreateProduct = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<{ message: string; code: number } | null>(
+    null,
+  );
   const mutate = async (data: CreateProductPayload) => {
     try {
       setError(null);
@@ -19,7 +21,14 @@ export const useCreateProduct = () => {
     } catch (e) {
       const err = e as ApiErrorResponse;
 
-      if (err.response?.data) setError(err.response.data.message[0]);
+      if (err.response?.data) {
+        setError({
+          message: Array.isArray(err.response.data.message)
+            ? err.response.data.message[0]
+            : err.response.data.message,
+          code: err.response.data.statusCode,
+        });
+      }
       throw err;
     } finally {
       setIsLoading(false);
@@ -32,7 +41,10 @@ export const useCreateProduct = () => {
 export const useGetProducts = () => {
   const [data, setData] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<{
+    message: string;
+    code: number;
+  } | null>(null);
 
   const fetchData = async () => {
     try {
@@ -42,7 +54,14 @@ export const useGetProducts = () => {
     } catch (e) {
       const err = e as ApiErrorResponse;
 
-      if (err.response?.data) setError(err.response.data.message[0]);
+      if (err.response?.data) {
+        setError({
+          message: Array.isArray(err.response.data.message)
+            ? err.response.data.message[0]
+            : err.response.data.message,
+          code: err.response.data.statusCode,
+        });
+      }
       throw err;
     } finally {
       setIsLoading(false);
@@ -59,7 +78,10 @@ export const useGetProducts = () => {
 export const useGetProduct = (productId: string) => {
   const [data, setData] = useState<Product | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<{
+    message: string;
+    code: number;
+  } | null>(null);
 
   const fetchData = async () => {
     try {
@@ -69,7 +91,15 @@ export const useGetProduct = (productId: string) => {
     } catch (e) {
       const err = e as ApiErrorResponse;
 
-      if (err.response?.data) setError(err.response.data.message[0]);
+      if (err.response?.data) {
+        setError({
+          message: Array.isArray(err.response.data.message)
+            ? err.response.data.message[0]
+            : err.response.data.message,
+          code: err.response.data.statusCode,
+        });
+      }
+
       throw err;
     } finally {
       setIsLoading(false);
