@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { checkError } from "../utils/error.ts";
 import { LoginPayload, RegisterPayload } from "../types/auth.ts";
-import { loginApi, registerApi } from "../api/auth.ts";
+import { getMeApi, loginApi, registerApi } from "../api/auth.ts";
 
 export const useRegister = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -47,4 +47,33 @@ export const useLogin = () => {
   };
 
   return { mutate, isLoading, error };
+};
+
+export const useGetMe = () => {
+  const [data, setData] = useState<{
+    userId: string;
+  } | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<{ message: string; code: number } | null>(
+    null,
+  );
+
+  const fetchData = async () => {
+    try {
+      setIsLoading(true);
+      const product = await getMeApi();
+      setData(product);
+    } catch (e) {
+      checkError(e, setError);
+      throw e;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  return { data, isLoading, error };
 };

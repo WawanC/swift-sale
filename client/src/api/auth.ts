@@ -1,4 +1,4 @@
-import { LoginPayload, RegisterPayload } from "../types/auth.ts";
+import { GetMeResponse, LoginPayload, RegisterPayload } from "../types/auth.ts";
 import axios from "axios";
 
 export const registerApi = async (data: RegisterPayload) => {
@@ -7,4 +7,9 @@ export const registerApi = async (data: RegisterPayload) => {
 
 export const loginApi = async (data: LoginPayload) => {
   await axios.post("/api/auth/login", data);
+};
+
+export const getMeApi = async () => {
+  const response = await axios.get<GetMeResponse>("/api/auth/me");
+  return response.data.user;
 };
