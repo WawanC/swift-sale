@@ -22,9 +22,17 @@ const ProductItem: FC<Props> = (props) => {
       ) : (
         <div className={`w-full aspect-square bg-neutral-500 rounded`}></div>
       )}
-      <div className={`flex flex-col items-center`}>
+      <div className={`flex flex-col items-center gap-2`}>
         <h1 className={`font-bold text-center`}>{props.product.title}</h1>
         <h2>${props.product.price}</h2>
+        <div className={`flex gap-4`}>
+          <Link
+            to={`/edit-product/${props.product.id}`}
+            className={`bg-neutral-200 p-2`}
+          >
+            Edit
+          </Link>
+        </div>
       </div>
     </Link>
   );
