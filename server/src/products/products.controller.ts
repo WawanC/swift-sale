@@ -8,16 +8,19 @@ import {
   Post,
   Put,
   UploadedFiles,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { ProductsService } from './products.service';
 import { ProductParamDto } from './dto/product-param.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ValidPictures } from './decorators/valid-pictures.decorator';
+import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('products')
 export class ProductsController {
   constructor(private productsService: ProductsService) {}
+  @UseGuards(AuthGuard)
   @Post()
   @ValidPictures()
   async create(
@@ -62,6 +65,7 @@ export class ProductsController {
     };
   }
 
+  @UseGuards(AuthGuard)
   @Put(':id')
   @ValidPictures()
   async update(
@@ -89,6 +93,7 @@ export class ProductsController {
     };
   }
 
+  @UseGuards(AuthGuard)
   @Delete(':id')
   async delete(@Param() params: ProductParamDto) {
     const product = await this.productsService.findOne(params.id);
