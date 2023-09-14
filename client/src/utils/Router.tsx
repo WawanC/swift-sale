@@ -3,6 +3,7 @@ import HomePage from "../pages/HomePage.tsx";
 import NewProductPage from "../pages/NewProductPage.tsx";
 import ProductDetailPage from "../pages/ProductDetailPage.tsx";
 import EditProductPage from "../pages/EditProductPage.tsx";
+import RegisterPage from "../pages/RegisterPage.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -18,4 +19,5 @@ export const router = createBrowserRouter([
     element: <ProductDetailPage />,
   },
   { path: "/edit-product/:productId", element: <EditProductPage /> },
+  { path: "/register", element: <RegisterPage /> },
 ]);

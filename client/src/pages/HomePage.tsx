@@ -13,6 +13,14 @@ const HomePage = () => {
       <Link to={"/new-product"} className={`p-2 bg-neutral-200`}>
         Create New Product
       </Link>
+      <div className={`flex gap-4`}>
+        <Link to={"/register"} className={`underline underline-offset-8`}>
+          Register
+        </Link>
+        <Link to={"/login"} className={`underline underline-offset-8`}>
+          Login
+        </Link>
+      </div>
       {getProducts.isFetching ? (
         <span>Loading...</span>
       ) : (
