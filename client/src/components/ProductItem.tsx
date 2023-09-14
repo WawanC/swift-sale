@@ -2,20 +2,22 @@ import { Product } from "../types/product.ts";
 import { FC, MouseEventHandler } from "react";
 import { Link } from "react-router-dom";
 import { useDeleteProduct } from "../hooks/Product.tsx";
+import { useAppDispatch } from "../store/store.ts";
+import { setProductsLoading } from "../store/products.ts";
 
 type Props = {
   product: Product;
-  refreshProducts: () => Promise<void>;
 };
 
 const ProductItem: FC<Props> = (props) => {
   const deleteProduct = useDeleteProduct(props.product.id);
+  const dispatch = useAppDispatch();
 
   const onDeleteProduct: MouseEventHandler = async (e) => {
     e.preventDefault();
 
+    dispatch(setProductsLoading(true));
     await deleteProduct.mutate();
-    await props.refreshProducts();
   };
 
   return (

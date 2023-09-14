@@ -1,13 +1,9 @@
 import { Link } from "react-router-dom";
-import { useGetProducts } from "../hooks/Product.tsx";
 import ProductList from "../components/ProductList.tsx";
+import { useGetProducts } from "../hooks/Product.tsx";
 
 const HomePage = () => {
   const getProducts = useGetProducts();
-
-  const refreshProducts = async () => {
-    await getProducts.fetchData();
-  };
 
   return (
     <main
@@ -17,17 +13,12 @@ const HomePage = () => {
       <Link to={"/new-product"} className={`p-2 bg-neutral-200`}>
         Create New Product
       </Link>
-      {getProducts.error ? (
-        <span>{getProducts.error.message}</span>
-      ) : getProducts.isLoading ? (
+      {getProducts.isFetching ? (
         <span>Loading...</span>
       ) : (
         getProducts.data && (
           <section className={`w-3/4`}>
-            <ProductList
-              products={getProducts.data}
-              refreshProducts={refreshProducts}
-            />
+            <ProductList products={getProducts.data} />
           </section>
         )
       )}

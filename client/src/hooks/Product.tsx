@@ -4,16 +4,18 @@ import {
   createProductApi,
   deleteProductApi,
   getProductApi,
-  getProductsApi,
   updateProductApi,
 } from "../api/product.ts";
-import { ApiErrorResponse } from "../types/error.ts";
+import { useAppDispatch, useAppSelector } from "../store/store.ts";
+import { fetchProductsThunk } from "../store/products.ts";
+import { checkError } from "../utils/error.ts";
 
 export const useCreateProduct = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<{ message: string; code: number } | null>(
     null,
   );
+
   const mutate = async (data: CreateProductPayload) => {
     try {
       setError(null);
@@ -21,17 +23,8 @@ export const useCreateProduct = () => {
 
       await createProductApi(data);
     } catch (e) {
-      const err = e as ApiErrorResponse;
-
-      if (err.response?.data) {
-        setError({
-          message: Array.isArray(err.response.data.message)
-            ? err.response.data.message[0]
-            : err.response.data.message,
-          code: err.response.data.statusCode,
-        });
-      }
-      throw err;
+      checkError(e, setError);
+      throw e;
     } finally {
       setIsLoading(false);
     }
@@ -41,40 +34,15 @@ export const useCreateProduct = () => {
 };
 
 export const useGetProducts = () => {
-  const [data, setData] = useState<Product[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<{
-    message: string;
-    code: number;
-  } | null>(null);
-
-  const fetchData = async () => {
-    try {
-      setIsLoading(true);
-      const products = await getProductsApi();
-      setData(products);
-    } catch (e) {
-      const err = e as ApiErrorResponse;
-
-      if (err.response?.data) {
-        setError({
-          message: Array.isArray(err.response.data.message)
-            ? err.response.data.message[0]
-            : err.response.data.message,
-          code: err.response.data.statusCode,
-        });
-      }
-      throw err;
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const data = useAppSelector((state) => state.product.products);
+  const isFetching = useAppSelector((state) => state.product.isFetching);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    fetchData();
+    dispatch(fetchProductsThunk());
   }, []);
 
-  return { data, isLoading, error, fetchData };
+  return { data, isFetching };
 };
 
 export const useGetProduct = (productId: string) => {
@@ -91,18 +59,8 @@ export const useGetProduct = (productId: string) => {
       const product = await getProductApi(productId);
       setData(product);
     } catch (e) {
-      const err = e as ApiErrorResponse;
-
-      if (err.response?.data) {
-        setError({
-          message: Array.isArray(err.response.data.message)
-            ? err.response.data.message[0]
-            : err.response.data.message,
-          code: err.response.data.statusCode,
-        });
-      }
-
-      throw err;
+      checkError(e, setError);
+      throw e;
     } finally {
       setIsLoading(false);
     }
@@ -120,6 +78,7 @@ export const useUpdateProduct = (productId: string) => {
   const [error, setError] = useState<{ message: string; code: number } | null>(
     null,
   );
+
   const mutate = async (data: CreateProductPayload) => {
     try {
       setError(null);
@@ -127,17 +86,8 @@ export const useUpdateProduct = (productId: string) => {
 
       await updateProductApi(productId, data);
     } catch (e) {
-      const err = e as ApiErrorResponse;
-
-      if (err.response?.data) {
-        setError({
-          message: Array.isArray(err.response.data.message)
-            ? err.response.data.message[0]
-            : err.response.data.message,
-          code: err.response.data.statusCode,
-        });
-      }
-      throw err;
+      checkError(e, setError);
+      throw e;
     } finally {
       setIsLoading(false);
     }
@@ -152,6 +102,7 @@ export const useDeleteProduct = (productId: string) => {
     message: string;
     code: number;
   } | null>(null);
+  const dispatch = useAppDispatch();
 
   const mutate = async () => {
     try {
@@ -160,18 +111,10 @@ export const useDeleteProduct = (productId: string) => {
 
       await deleteProductApi(productId);
     } catch (e) {
-      const err = e as ApiErrorResponse;
-
-      if (err.response?.data) {
-        setError({
-          message: Array.isArray(err.response.data.message)
-            ? err.response.data.message[0]
-            : err.response.data.message,
-          code: err.response.data.statusCode,
-        });
-      }
-      throw err;
+      checkError(e, setError);
+      throw e;
     } finally {
+      dispatch(fetchProductsThunk());
       setIsLoading(false);
     }
   };

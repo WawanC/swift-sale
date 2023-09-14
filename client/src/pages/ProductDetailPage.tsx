@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useGetProduct } from "../hooks/Product.tsx";
 import { useState } from "react";
+import { useGetProduct } from "../hooks/Product.tsx";
 
 type Params = {
   productId: string;
@@ -12,7 +12,13 @@ const ProductDetailPage = () => {
   const navigate = useNavigate();
   const [currentProductIdx, setCurrentProductIdx] = useState(0);
 
-  if (getProduct.error && getProduct.error.code === 404)
+  console.log(JSON.stringify(getProduct.error));
+
+  if (
+    getProduct.error &&
+    "status" in getProduct.error &&
+    getProduct.error.status === 404
+  )
     return (
       <main className={`flex-1 flex justify-center p-8`}>
         <h1 className={`text-4xl font-bold`}>Product not found</h1>
