@@ -2,6 +2,7 @@ import {
   CreateProductPayload,
   GetProductResponse,
   GetProductsResponse,
+  UpdateProductPayload,
 } from "../types/product.ts";
 import axios from "axios";
 
@@ -30,4 +31,22 @@ export const getProductApi = async (productId: string) => {
     `/api/products/${productId}`,
   );
   return response.data.product;
+};
+
+export const updateProductApi = async (
+  productId: string,
+  data: UpdateProductPayload,
+) => {
+  const formData = new FormData();
+
+  data.title && formData.append("title", data.title.trim());
+  data.price && formData.append("price", `${data.price}`);
+  data.description && formData.append("description", data.description.trim());
+
+  if (data.pictures && data.pictures.length > 0)
+    for (const picture of data.pictures) {
+      formData.append("pictures", picture);
+    }
+
+  await axios.put(`/api/products/${productId}`, formData);
 };

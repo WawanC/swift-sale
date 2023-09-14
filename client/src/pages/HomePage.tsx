@@ -1,15 +1,9 @@
 import { Link } from "react-router-dom";
-import { useGetProduct, useGetProducts } from "../hooks/Product.tsx";
+import { useGetProducts } from "../hooks/Product.tsx";
 import ProductList from "../components/ProductList.tsx";
-import { useEffect } from "react";
 
 const HomePage = () => {
   const getProducts = useGetProducts();
-  const getProduct = useGetProduct("d007838f-4a8f-40f7-87b7-48d29c00eeef");
-
-  useEffect(() => {
-    console.log(getProduct.data);
-  }, [getProduct.data]);
 
   return (
     <main

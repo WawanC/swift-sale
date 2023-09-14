@@ -4,6 +4,7 @@ import {
   createProductApi,
   getProductApi,
   getProductsApi,
+  updateProductApi,
 } from "../api/product.ts";
 import { ApiErrorResponse } from "../types/error.ts";
 
@@ -111,4 +112,35 @@ export const useGetProduct = (productId: string) => {
   }, []);
 
   return { data, isLoading, error, fetchData };
+};
+
+export const useUpdateProduct = (productId: string) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<{ message: string; code: number } | null>(
+    null,
+  );
+  const mutate = async (data: CreateProductPayload) => {
+    try {
+      setError(null);
+      setIsLoading(true);
+
+      await updateProductApi(productId, data);
+    } catch (e) {
+      const err = e as ApiErrorResponse;
+
+      if (err.response?.data) {
+        setError({
+          message: Array.isArray(err.response.data.message)
+            ? err.response.data.message[0]
+            : err.response.data.message,
+          code: err.response.data.statusCode,
+        });
+      }
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return { mutate, isLoading, error };
 };

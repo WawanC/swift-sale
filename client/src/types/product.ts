@@ -18,6 +18,13 @@ export type CreateProductPayload = {
   pictures?: File[];
 };
 
+export type UpdateProductPayload = {
+  title?: string;
+  price?: number;
+  description?: string;
+  pictures?: File[];
+};
+
 export type GetProductsResponse = {
   message: string;
   products: Product[];

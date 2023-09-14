@@ -11,6 +11,7 @@ export class UpdateProductDto {
   @Min(1)
   @IsInt()
   @IsOptional()
+  @Transform(({ value }) => +value)
   price?: number;
 
   @Length(1)
