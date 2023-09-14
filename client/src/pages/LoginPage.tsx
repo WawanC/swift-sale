@@ -1,17 +1,23 @@
 import { FormEventHandler, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLogin } from "../hooks/Auth.tsx";
 
 const LoginPage = () => {
   const [enteredUsername, setEnteredUsername] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const login = useLogin();
 
   const formSubmitHandler: FormEventHandler = async (e) => {
     e.preventDefault();
     setError(null);
 
     try {
+      await login.mutate({
+        username: enteredUsername.trim(),
+        password: enteredPassword.trim(),
+      });
       navigate("/");
     } catch (e) {
       setEnteredPassword("");
@@ -19,12 +25,12 @@ const LoginPage = () => {
     }
   };
 
-  const displayedError = error;
+  const displayedError = error || login.error?.message;
 
   return (
     <main className={`flex-1 flex flex-col items-center p-16 gap-8`}>
       <h1 className={`text-4xl font-bold`}>Sign-In</h1>
-      {1 > 2 ? (
+      {login.isLoading ? (
         <span className={`text-2xl font-semibold`}>Loading...</span>
       ) : (
         <form
