@@ -2,15 +2,19 @@ import {
   Body,
   ConflictException,
   Controller,
+  Get,
   Post,
+  Req,
   Res,
   UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { UsersService } from '../users/users.service';
-import { Response } from 'express';
+import { Request, Response } from 'express';
+import { AuthGuard } from './auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -52,5 +56,16 @@ export class AuthController {
       message: 'Success',
       token: loginResult,
     });
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('/me')
+  async getMe(@Req() request: Request) {
+    if (!request.user) throw new UnauthorizedException();
+
+    return {
+      message: 'Success',
+      user: request.user,
+    };
   }
 }
