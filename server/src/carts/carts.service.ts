@@ -26,6 +26,16 @@ export class CartsService {
     return await this.cartRepository.save(cart);
   }
 
+  async decrement(cart: Cart, count: number) {
+    if (cart.count - count <= 0) return await this.cartRepository.remove(cart);
+    cart.count -= count;
+    return await this.cartRepository.save(cart);
+  }
+
+  async delete(cart: Cart) {
+    return await this.cartRepository.remove(cart);
+  }
+
   async findOnebyUserAndProduct(user: User, product: Product) {
     return await this.cartRepository.findOne({
       where: {

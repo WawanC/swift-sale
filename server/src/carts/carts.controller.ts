@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   NotFoundException,
   Param,
   Post,
@@ -15,6 +16,7 @@ import { CartsService } from './carts.service';
 import { UsersService } from '../users/users.service';
 import { ProductsService } from '../products/products.service';
 import { Request } from 'express';
+import { DeleteCartDto } from './dto/delete-cart.dto';
 
 @Controller('carts')
 export class CartsController {
@@ -23,6 +25,16 @@ export class CartsController {
     private usersService: UsersService,
     private productsService: ProductsService,
   ) {}
+
+  async checkUserProduct(userId: string, productId: string) {
+    const user = await this.usersService.findOneById(userId);
+    if (!user) throw new UnauthorizedException();
+
+    const product = await this.productsService.findOne(productId);
+    if (!product) throw new NotFoundException('Product not found');
+
+    return { user, product };
+  }
   @UseGuards(AuthGuard)
   @Post(':productId')
   async create(
@@ -32,11 +44,10 @@ export class CartsController {
   ) {
     if (!request.user) throw new UnauthorizedException();
 
-    const user = await this.usersService.findOneById(request.user.userId);
-    if (!user) throw new UnauthorizedException();
-
-    const product = await this.productsService.findOne(params.productId);
-    if (!product) throw new NotFoundException('Product not found');
+    const { user, product } = await this.checkUserProduct(
+      request.user.userId,
+      params.productId,
+    );
 
     const existingCart = await this.cartsService.findOnebyUserAndProduct(
       user,
@@ -62,5 +73,31 @@ export class CartsController {
       message: 'Success',
       cart: cart,
     };
+  }
+
+  @UseGuards(AuthGuard)
+  @Delete(':productId')
+  async delete(
+    @Param() params: CartProductParamDto,
+    @Body() deleteCartDto: DeleteCartDto,
+    @Req() request: Request,
+  ) {
+    if (!request.user) throw new UnauthorizedException();
+
+    const { user, product } = await this.checkUserProduct(
+      request.user.userId,
+      params.productId,
+    );
+
+    let cart = await this.cartsService.findOnebyUserAndProduct(user, product);
+    if (!cart) throw new NotFoundException('Cart not found');
+
+    if (deleteCartDto.count) {
+      cart = await this.cartsService.decrement(cart, deleteCartDto.count);
+    } else {
+      cart = await this.cartsService.delete(cart);
+    }
+
+    return { message: 'Success', cart: cart };
   }
 }
