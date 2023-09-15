@@ -76,4 +76,12 @@ export class AuthController {
       },
     };
   }
+
+  @UseGuards(AuthGuard)
+  @Post('/logout')
+  async logout(@Res() response: Response) {
+    return response.clearCookie('access_token').json({
+      message: 'Success',
+    });
+  }
 }

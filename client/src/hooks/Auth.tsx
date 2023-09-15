@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { checkError } from "../utils/error.ts";
 import { LoginPayload, RegisterPayload } from "../types/auth.ts";
-import { loginApi, registerApi } from "../api/auth.ts";
-import { fetchAuthThunk } from "../store/auth.ts";
+import { loginApi, logoutApi, registerApi } from "../api/auth.ts";
+import { clearAuthReducer, fetchAuthThunk } from "../store/auth.ts";
 import { useAppDispatch, useAppSelector } from "../store/store.ts";
 
 export const useRegister = () => {
@@ -61,4 +61,17 @@ export const useGetMe = () => {
   }, []);
 
   return { data, isFetching };
+};
+
+export const useLogout = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useAppDispatch();
+  const mutate = async () => {
+    setIsLoading(true);
+    await logoutApi();
+    dispatch(clearAuthReducer());
+    setIsLoading(false);
+  };
+
+  return { mutate, isLoading };
 };

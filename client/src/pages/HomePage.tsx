@@ -1,26 +1,43 @@
 import { Link } from "react-router-dom";
 import ProductList from "../components/ProductList.tsx";
 import { useGetProducts } from "../hooks/Product.tsx";
+import { useGetMe, useLogout } from "../hooks/Auth.tsx";
 
 const HomePage = () => {
   const getProducts = useGetProducts();
+  const getMe = useGetMe();
+  const logout = useLogout();
 
   return (
     <main
       className={`flex flex-col items-center justify-center p-8 gap-8 flex-1 text-xl`}
     >
       <h1 className={`text-4xl font-bold`}>Hello from SwiftSale</h1>
+      {getMe.data.username && (
+        <h2 className={`text-2xl font-semibold`}>
+          Hello {getMe.data.username}
+        </h2>
+      )}
       <Link to={"/new-product"} className={`p-2 bg-neutral-200`}>
         Create New Product
       </Link>
-      <div className={`flex gap-4`}>
-        <Link to={"/register"} className={`underline underline-offset-8`}>
-          Register
-        </Link>
-        <Link to={"/login"} className={`underline underline-offset-8`}>
-          Login
-        </Link>
-      </div>
+      {getMe.data.userId ? (
+        <button
+          className={`underline underline-offset-8`}
+          onClick={() => logout.mutate()}
+        >
+          Logout
+        </button>
+      ) : (
+        <div className={`flex gap-4`}>
+          <Link to={"/register"} className={`underline underline-offset-8`}>
+            Register
+          </Link>
+          <Link to={"/login"} className={`underline underline-offset-8`}>
+            Login
+          </Link>
+        </div>
+      )}
       {getProducts.isFetching ? (
         <span>Loading...</span>
       ) : (

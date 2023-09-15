@@ -26,7 +26,15 @@ export const fetchAuthThunk = createAsyncThunk("auth/fetch", async () => {
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    clearAuthReducer: (state) => {
+      state.data = {
+        userId: null,
+        email: null,
+        username: null,
+      };
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchAuthThunk.fulfilled, (state, action) => {
       state.isFetching = false;
@@ -50,6 +58,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const {} = authSlice.actions;
+export const { clearAuthReducer } = authSlice.actions;
 
 export default authSlice.reducer;
