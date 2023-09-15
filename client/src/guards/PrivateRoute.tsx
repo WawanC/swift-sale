@@ -7,6 +7,10 @@ const PrivateRoute = () => {
   const getMe = useGetMe();
 
   useEffect(() => {
+    getMe.fetchData();
+  }, []);
+
+  useEffect(() => {
     if (!getMe.data.userId) navigate("/login", { replace: true });
   }, [getMe.data.userId]);
 

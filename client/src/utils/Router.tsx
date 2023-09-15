@@ -7,16 +7,23 @@ import RegisterPage from "../pages/RegisterPage.tsx";
 import LoginPage from "../pages/LoginPage.tsx";
 import PrivateRoute from "../guards/PrivateRoute.tsx";
 import PublicRoute from "../guards/PublicRoute.tsx";
+import FreeRoute from "../guards/FreeRoute.tsx";
 
 export const router = createBrowserRouter([
   {
-    path: "/",
-    element: <HomePage />,
+    element: <FreeRoute />,
+    children: [
+      {
+        path: "/",
+        element: <HomePage />,
+      },
+      {
+        path: "/products/:productId",
+        element: <ProductDetailPage />,
+      },
+    ],
   },
-  {
-    path: "/products/:productId",
-    element: <ProductDetailPage />,
-  },
+
   {
     element: <PublicRoute />,
     children: [

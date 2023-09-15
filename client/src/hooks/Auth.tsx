@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { checkError } from "../utils/error.ts";
 import { LoginPayload, RegisterPayload } from "../types/auth.ts";
 import { loginApi, logoutApi, registerApi } from "../api/auth.ts";
@@ -56,11 +56,11 @@ export const useGetMe = () => {
   const isFetching = useAppSelector((state) => state.auth.isFetching);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchAuthThunk());
-  }, []);
+  const fetchData = async () => {
+    await dispatch(fetchAuthThunk());
+  };
 
-  return { data, isFetching };
+  return { data, isFetching, fetchData };
 };
 
 export const useLogout = () => {

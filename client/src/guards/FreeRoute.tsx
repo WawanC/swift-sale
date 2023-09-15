@@ -1,18 +1,13 @@
 import { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useGetMe } from "../hooks/Auth.tsx";
 
-const PublicRoute = () => {
-  const navigate = useNavigate();
+const FreeRoute = () => {
   const getMe = useGetMe();
 
   useEffect(() => {
     getMe.fetchData();
   }, []);
-
-  useEffect(() => {
-    if (getMe.data.userId) navigate("/", { replace: true });
-  }, [getMe.data.userId]);
 
   if (getMe.isFetching)
     return (
@@ -24,4 +19,4 @@ const PublicRoute = () => {
   return <Outlet />;
 };
 
-export default PublicRoute;
+export default FreeRoute;
