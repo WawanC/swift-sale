@@ -1,3 +1,9 @@
+export type UserAuthData = {
+  id: string;
+  email: string;
+  username: string;
+};
+
 export type RegisterPayload = {
   email: string;
   username: string;
@@ -11,7 +17,5 @@ export type LoginPayload = {
 
 export type GetMeResponse = {
   message: string;
-  user: {
-    userId: string;
-  };
+  user: UserAuthData;
 };

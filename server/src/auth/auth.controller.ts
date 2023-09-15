@@ -63,9 +63,17 @@ export class AuthController {
   async getMe(@Req() request: Request) {
     if (!request.user) throw new UnauthorizedException();
 
+    const user = await this.usersService.findOneById(request.user.userId);
+
+    if (!user) throw new UnauthorizedException();
+
     return {
       message: 'Success',
-      user: request.user,
+      user: {
+        id: user.id,
+        email: user.email,
+        username: user.username,
+      },
     };
   }
 }

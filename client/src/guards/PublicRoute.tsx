@@ -7,8 +7,15 @@ const PublicRoute = () => {
   const getMe = useGetMe();
 
   useEffect(() => {
-    if (getMe.data) navigate("/");
-  }, [getMe.data]);
+    if (getMe.data.userId) navigate("/", { replace: true });
+  }, [getMe.data.userId]);
+
+  if (getMe.isFetching)
+    return (
+      <main className={`flex-1 flex justify-center items-center`}>
+        <p className={`text-4xl font-bold`}>Loading...</p>;
+      </main>
+    );
 
   return <Outlet />;
 };

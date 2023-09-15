@@ -7,8 +7,15 @@ const PrivateRoute = () => {
   const getMe = useGetMe();
 
   useEffect(() => {
-    if (getMe.error) navigate("/login");
-  }, [getMe.error]);
+    if (!getMe.data.userId) navigate("/login", { replace: true });
+  }, [getMe.data.userId]);
+
+  if (getMe.isFetching)
+    return (
+      <main className={`flex-1 flex justify-center items-center`}>
+        <p className={`text-4xl font-bold`}>Loading...</p>;
+      </main>
+    );
 
   return <Outlet />;
 };

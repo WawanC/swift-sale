@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { checkError } from "../utils/error.ts";
 import { LoginPayload, RegisterPayload } from "../types/auth.ts";
-import { getMeApi, loginApi, registerApi } from "../api/auth.ts";
+import { loginApi, registerApi } from "../api/auth.ts";
+import { fetchAuthThunk } from "../store/auth.ts";
+import { useAppDispatch, useAppSelector } from "../store/store.ts";
 
 export const useRegister = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -50,30 +52,13 @@ export const useLogin = () => {
 };
 
 export const useGetMe = () => {
-  const [data, setData] = useState<{
-    userId: string;
-  } | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<{ message: string; code: number } | null>(
-    null,
-  );
-
-  const fetchData = async () => {
-    try {
-      setIsLoading(true);
-      const product = await getMeApi();
-      setData(product);
-    } catch (e) {
-      checkError(e, setError);
-      throw e;
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const data = useAppSelector((state) => state.auth.data);
+  const isFetching = useAppSelector((state) => state.auth.isFetching);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    fetchData();
+    dispatch(fetchAuthThunk());
   }, []);
 
-  return { data, isLoading, error };
+  return { data, isFetching };
 };
