@@ -6,6 +6,7 @@ import {
   UpdateProductPayload,
 } from "../types/product.ts";
 import axios from "axios";
+import { privateAxios } from "../utils/axios.ts";
 
 export const createProductApi = async (data: CreateProductPayload) => {
   const formData = new FormData();
@@ -19,7 +20,7 @@ export const createProductApi = async (data: CreateProductPayload) => {
       formData.append("pictures", picture);
     }
 
-  await axios.post("/api/products", formData);
+  await privateAxios.post("/api/products", formData);
 };
 
 export const getProductsApi = async () => {
@@ -49,9 +50,11 @@ export const updateProductApi = async (
       formData.append("pictures", picture);
     }
 
-  await axios.put(`/api/products/${productId}`, formData);
+  await privateAxios.put(`/api/products/${productId}`, formData);
 };
 
 export const deleteProductApi = async (productId: string) => {
-  await axios.delete<DeleteProductResponse>(`/api/products/${productId}`);
+  await privateAxios.delete<DeleteProductResponse>(
+    `/api/products/${productId}`,
+  );
 };
