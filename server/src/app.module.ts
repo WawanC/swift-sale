@@ -11,6 +11,8 @@ import { ProductsModule } from './products/products.module';
 import { ProductPicture } from './products/entities/product-picture.entity';
 import { User } from './users/user.entity';
 import { AuthModule } from './auth/auth.module';
+import { CartModule } from './cart/cart.module';
+import { Cart } from './cart/cart.entity';
 
 @Module({
   imports: [
@@ -21,11 +23,12 @@ import { AuthModule } from './auth/auth.module';
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: process.env.DATABASE_URL,
-      entities: [Product, ProductPicture, User],
+      entities: [Product, ProductPicture, User, Cart],
       synchronize: true,
     }),
     ProductsModule,
     AuthModule,
+    CartModule,
   ],
   controllers: [AppController],
   providers: [AppService],
