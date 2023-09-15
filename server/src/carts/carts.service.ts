@@ -44,4 +44,13 @@ export class CartsService {
       },
     });
   }
+
+  async findByUser(user: User) {
+    return await this.cartRepository.find({
+      where: {
+        user: user,
+      },
+      relations: ['product'],
+    });
+  }
 }

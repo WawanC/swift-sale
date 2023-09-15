@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   NotFoundException,
   Param,
   Post,
@@ -35,6 +36,7 @@ export class CartsController {
 
     return { user, product };
   }
+
   @UseGuards(AuthGuard)
   @Post(':productId')
   async create(
@@ -99,5 +101,22 @@ export class CartsController {
     }
 
     return { message: 'Success', cart: cart };
+  }
+
+  @UseGuards(AuthGuard)
+  @Get()
+  async findAll(@Req() request: Request) {
+    if (!request.user) throw new UnauthorizedException();
+
+    const user = await this.usersService.findOneById(request.user.userId);
+
+    if (!user) throw new UnauthorizedException();
+
+    const carts = await this.cartsService.findByUser(user);
+
+    return {
+      message: 'Success',
+      carts: carts,
+    };
   }
 }
