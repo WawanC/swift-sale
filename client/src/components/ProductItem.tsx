@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { useDeleteProduct } from "../hooks/Product.tsx";
 import { useAppDispatch } from "../store/store.ts";
 import { setProductsLoading } from "../store/products.ts";
+import { useGetMe } from "../hooks/Auth.tsx";
+import { useAddCart } from "../hooks/Cart.tsx";
 
 type Props = {
   product: Product;
@@ -12,12 +14,20 @@ type Props = {
 const ProductItem: FC<Props> = (props) => {
   const deleteProduct = useDeleteProduct(props.product.id);
   const dispatch = useAppDispatch();
+  const getMe = useGetMe();
+  const addCart = useAddCart();
 
   const onDeleteProduct: MouseEventHandler = async (e) => {
     e.preventDefault();
 
     dispatch(setProductsLoading(true));
     await deleteProduct.mutate();
+  };
+
+  const onAddCart: MouseEventHandler = async (e) => {
+    e.preventDefault();
+
+    addCart.mutate();
   };
 
   return (
@@ -51,6 +61,11 @@ const ProductItem: FC<Props> = (props) => {
           >
             Delete
           </button>
+          {getMe.data.userId && (
+            <button className={`bg-neutral-200 p-2 z-10`} onClick={onAddCart}>
+              +Cart
+            </button>
+          )}
         </div>
       </div>
     </Link>
