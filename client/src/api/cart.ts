@@ -15,3 +15,14 @@ export const getCartsApi = async () => {
   const response = await axios.get<GetCartsResponse>("/api/carts");
   return response.data.carts;
 };
+
+export const deleteCartApi = async (data: {
+  productId: string;
+  count: number;
+}) => {
+  await axios.delete(`/api/carts/${data.productId}`, {
+    data: {
+      count: data.count,
+    },
+  });
+};

@@ -1,7 +1,6 @@
 import { useAppDispatch, useAppSelector } from "../store/store.ts";
-import { CartItem } from "../types/cart.ts";
 import { useEffect, useMemo, useState } from "react";
-import { createCartApi } from "../api/cart.ts";
+import { createCartApi, deleteCartApi } from "../api/cart.ts";
 import { checkError } from "../utils/error.ts";
 import { fetchCartsThunk } from "../store/cart.ts";
 
@@ -40,9 +39,29 @@ export const useAddCart = () => {
   } | null>(null);
   const dispatch = useAppDispatch();
 
-  const mutate = async (item: CartItem) => {
+  const mutate = async (data: { productId: string; count: number }) => {
     try {
-      await createCartApi({ productId: item.product.id, count: item.count });
+      await createCartApi({ productId: data.productId, count: data.count });
+    } catch (e) {
+      checkError(e, setError);
+    } finally {
+      dispatch(fetchCartsThunk());
+    }
+  };
+
+  return { mutate, error };
+};
+
+export const useDeleteCart = () => {
+  const [error, setError] = useState<{
+    message: string;
+    code: number;
+  } | null>(null);
+  const dispatch = useAppDispatch();
+
+  const mutate = async (data: { productId: string; count: number }) => {
+    try {
+      await deleteCartApi({ productId: data.productId, count: data.count });
     } catch (e) {
       checkError(e, setError);
     } finally {

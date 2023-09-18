@@ -28,9 +28,8 @@ const ProductItem: FC<Props> = (props) => {
     e.preventDefault();
 
     await addCart.mutate({
-      product: props.product,
+      productId: props.product.id,
       count: 1,
-      price: props.product.price,
     });
   };
 
