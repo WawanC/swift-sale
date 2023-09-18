@@ -27,7 +27,11 @@ const ProductItem: FC<Props> = (props) => {
   const onAddCart: MouseEventHandler = async (e) => {
     e.preventDefault();
 
-    addCart.mutate();
+    addCart.mutate({
+      productId: props.product.id,
+      count: 1,
+      price: props.product.price,
+    });
   };
 
   return (

@@ -21,7 +21,7 @@ const HomePage = () => {
             Hello {getMe.data.username}
           </h2>
           <Link to={"/cart"} className={`p-2 bg-neutral-200`}>
-            My Cart : {getCart.data.count}
+            My Cart : {getCart.totalCount}
           </Link>
         </div>
       )}
