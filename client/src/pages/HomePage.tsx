@@ -20,6 +20,7 @@ const HomePage = () => {
           <h2 className={`text-2xl font-semibold`}>
             Hello {getMe.data.username}
           </h2>
+
           <Link to={"/cart"} className={`p-2 bg-neutral-200`}>
             My Cart : {getCart.totalCount}
           </Link>

@@ -12,8 +12,6 @@ const ProductDetailPage = () => {
   const navigate = useNavigate();
   const [currentProductIdx, setCurrentProductIdx] = useState(0);
 
-  console.log(JSON.stringify(getProduct.error));
-
   if (
     getProduct.error &&
     "status" in getProduct.error &&

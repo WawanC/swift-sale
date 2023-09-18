@@ -1,7 +1,8 @@
-import { useAppDispatch, useAppSelector } from "../store/store.ts";
-import { addCart } from "../store/cart.ts";
+import { useAppSelector } from "../store/store.ts";
 import { CartItem } from "../types/cart.ts";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { createCartApi } from "../api/cart.ts";
+import { checkError } from "../utils/error.ts";
 
 export const useGetCart = () => {
   const items = useAppSelector((state) => state.cart.items);
@@ -18,10 +19,19 @@ export const useGetCart = () => {
 };
 
 export const useAddCart = () => {
-  const dispatch = useAppDispatch();
-  const mutate = (item: CartItem) => {
-    dispatch(addCart(item));
+  const [error, setError] = useState<{
+    message: string;
+    code: number;
+  } | null>(null);
+
+  const mutate = async (item: CartItem) => {
+    try {
+      await createCartApi({ productId: item.productId, count: item.count });
+      console.log("create cart success");
+    } catch (e) {
+      checkError(e, setError);
+    }
   };
 
-  return { mutate };
+  return { mutate, error };
 };
