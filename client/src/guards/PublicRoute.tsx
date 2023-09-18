@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useGetMe } from "../hooks/Auth.tsx";
+import PageLayout from "../components/layouts/PageLayout.tsx";
 
 const PublicRoute = () => {
   const navigate = useNavigate();
@@ -21,7 +22,11 @@ const PublicRoute = () => {
       </main>
     );
 
-  return <Outlet />;
+  return (
+    <PageLayout>
+      <Outlet />
+    </PageLayout>
+  );
 };
 
 export default PublicRoute;

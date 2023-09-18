@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { useGetMe } from "../hooks/Auth.tsx";
+import PageLayout from "../components/layouts/PageLayout.tsx";
 
 const FreeRoute = () => {
   const getMe = useGetMe();
@@ -16,7 +17,11 @@ const FreeRoute = () => {
       </main>
     );
 
-  return <Outlet />;
+  return (
+    <PageLayout>
+      <Outlet />
+    </PageLayout>
+  );
 };
 
 export default FreeRoute;
