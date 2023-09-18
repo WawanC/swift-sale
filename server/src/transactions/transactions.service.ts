@@ -35,4 +35,11 @@ export class TransactionsService {
 
     return newTransaction;
   }
+
+  async findAll(user: User) {
+    return await this.transactionRepository.find({
+      where: { user: user },
+      relations: { items: true },
+    });
+  }
 }

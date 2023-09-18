@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Controller,
+  Get,
   Post,
   Req,
   UnauthorizedException,
@@ -42,6 +43,23 @@ export class TransactionsController {
     return {
       message: 'Success',
       transaction: newTransaction,
+    };
+  }
+
+  @UseGuards(AuthGuard)
+  @Get()
+  async findAll(@Req() request: Request) {
+    if (!request.user) throw new UnauthorizedException();
+
+    const user = await this.usersService.findOneById(request.user.userId);
+
+    if (!user) throw new UnauthorizedException();
+
+    const transactions = await this.transactionsService.findAll(user);
+
+    return {
+      message: 'Success',
+      transactions: transactions,
     };
   }
 }
