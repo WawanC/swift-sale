@@ -28,6 +28,10 @@ const HomePage = () => {
               My Cart : {getCarts.totalCount}
             </Link>
           )}
+
+          <Link to={"/transactions"} className={`p-2 bg-neutral-200`}>
+            My Transactions
+          </Link>
         </div>
       )}
       <Link to={"/new-product"} className={`p-2 bg-neutral-200`}>
