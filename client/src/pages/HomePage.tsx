@@ -2,13 +2,13 @@ import { Link } from "react-router-dom";
 import ProductList from "../components/ProductList.tsx";
 import { useGetProducts } from "../hooks/Product.tsx";
 import { useGetMe, useLogout } from "../hooks/Auth.tsx";
-import { useGetCart } from "../hooks/Cart.tsx";
+import { useGetCarts } from "../hooks/Cart.tsx";
 
 const HomePage = () => {
   const getProducts = useGetProducts();
   const getMe = useGetMe();
   const logout = useLogout();
-  const getCart = useGetCart();
+  const getCarts = useGetCarts();
 
   return (
     <main
@@ -21,11 +21,11 @@ const HomePage = () => {
             Hello {getMe.data.username}
           </h2>
 
-          {getCart.isFetching ? (
+          {getCarts.isFetching ? (
             <p className={`text-2xl`}>Loading...</p>
           ) : (
             <Link to={"/cart"} className={`p-2 bg-neutral-200`}>
-              My Cart : {getCart.totalCount}
+              My Cart : {getCarts.totalCount}
             </Link>
           )}
         </div>

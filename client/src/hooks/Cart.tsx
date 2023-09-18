@@ -5,7 +5,7 @@ import { createCartApi } from "../api/cart.ts";
 import { checkError } from "../utils/error.ts";
 import { fetchCartsThunk } from "../store/cart.ts";
 
-export const useGetCart = () => {
+export const useGetCarts = () => {
   const items = useAppSelector((state) => state.cart.items);
   const isFetching = useAppSelector((state) => state.cart.isFetching);
   const dispatch = useAppDispatch();
@@ -18,11 +18,19 @@ export const useGetCart = () => {
     return count;
   }, [items]);
 
+  const totalPrice = useMemo(() => {
+    let total = 0;
+    items.forEach((item) => {
+      total += item.price;
+    });
+    return total;
+  }, [items]);
+
   useEffect(() => {
     dispatch(fetchCartsThunk());
   }, []);
 
-  return { items, totalCount, isFetching };
+  return { items, totalCount, totalPrice, isFetching };
 };
 
 export const useAddCart = () => {
@@ -34,7 +42,7 @@ export const useAddCart = () => {
 
   const mutate = async (item: CartItem) => {
     try {
-      await createCartApi({ productId: item.productId, count: item.count });
+      await createCartApi({ productId: item.product.id, count: item.count });
     } catch (e) {
       checkError(e, setError);
     } finally {

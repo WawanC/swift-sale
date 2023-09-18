@@ -8,6 +8,7 @@ import LoginPage from "../pages/LoginPage.tsx";
 import PrivateRoute from "../guards/PrivateRoute.tsx";
 import PublicRoute from "../guards/PublicRoute.tsx";
 import FreeRoute from "../guards/FreeRoute.tsx";
+import CartPage from "../pages/CartPage.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -39,6 +40,7 @@ export const router = createBrowserRouter([
         element: <NewProductPage />,
       },
       { path: "/edit-product/:productId", element: <EditProductPage /> },
+      { path: "/cart", element: <CartPage /> },
     ],
   },
 ]);

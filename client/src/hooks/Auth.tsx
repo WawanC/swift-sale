@@ -54,13 +54,14 @@ export const useLogin = () => {
 export const useGetMe = () => {
   const data = useAppSelector((state) => state.auth.data);
   const isFetching = useAppSelector((state) => state.auth.isFetching);
+  const isInit = useAppSelector((state) => state.auth.isInit);
   const dispatch = useAppDispatch();
 
   const fetchData = async () => {
     await dispatch(fetchAuthThunk());
   };
 
-  return { data, isFetching, fetchData };
+  return { data, isFetching, fetchData, isInit };
 };
 
 export const useLogout = () => {

@@ -11,8 +11,9 @@ const PrivateRoute = () => {
   }, []);
 
   useEffect(() => {
-    if (!getMe.data.userId) navigate("/login", { replace: true });
-  }, [getMe.data.userId]);
+    if (!getMe.data.userId && getMe.isInit)
+      navigate("/login", { replace: true });
+  }, [getMe.data.userId, getMe.isInit]);
 
   if (getMe.isFetching)
     return (

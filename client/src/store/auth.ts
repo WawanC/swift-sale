@@ -8,6 +8,7 @@ export interface AuthState {
     email: string | null;
   };
   isFetching: boolean;
+  isInit: boolean;
 }
 
 const initialState: AuthState = {
@@ -17,6 +18,7 @@ const initialState: AuthState = {
     email: null,
   },
   isFetching: false,
+  isInit: false,
 };
 
 export const fetchAuthThunk = createAsyncThunk("auth/fetch", async () => {
@@ -38,6 +40,7 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchAuthThunk.fulfilled, (state, action) => {
       state.isFetching = false;
+      state.isInit = true;
       state.data = {
         userId: action.payload.id,
         email: action.payload.email,
@@ -49,6 +52,7 @@ export const authSlice = createSlice({
     });
     builder.addCase(fetchAuthThunk.rejected, (state, _) => {
       state.isFetching = false;
+      state.isInit = true;
       state.data = {
         userId: null,
         email: null,
