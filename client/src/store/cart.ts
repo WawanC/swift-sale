@@ -1,31 +1,39 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { CartItem } from "../types/cart.ts";
+import { getCartsApi } from "../api/cart.ts";
 
 export interface CartState {
   items: CartItem[];
+  isFetching: boolean;
 }
 
 const initialState: CartState = {
   items: [],
+  isFetching: false,
 };
+
+export const fetchCartsThunk = createAsyncThunk("carts/fetch", async () => {
+  return await getCartsApi();
+});
 
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
-  reducers: {
-    addCart: (state, action: PayloadAction<CartItem>) => {
-      const itemIdx = state.items.findIndex(
-        (item) => item.productId === action.payload.productId,
-      );
-      if (itemIdx >= 0) {
-        state.items[itemIdx].count += action.payload.count;
-      } else {
-        state.items.push(action.payload);
-      }
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(fetchCartsThunk.fulfilled, (state, action) => {
+      state.isFetching = false;
+      state.items = action.payload;
+    });
+    builder.addCase(fetchCartsThunk.pending, (state) => {
+      state.isFetching = true;
+    });
+    builder.addCase(fetchCartsThunk.rejected, (state) => {
+      state.isFetching = false;
+    });
   },
 });
 
-export const { addCart } = cartSlice.actions;
+export const {} = cartSlice.actions;
 
 export default cartSlice.reducer;

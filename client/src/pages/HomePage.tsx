@@ -21,9 +21,13 @@ const HomePage = () => {
             Hello {getMe.data.username}
           </h2>
 
-          <Link to={"/cart"} className={`p-2 bg-neutral-200`}>
-            My Cart : {getCart.totalCount}
-          </Link>
+          {getCart.isFetching ? (
+            <p className={`text-2xl`}>Loading...</p>
+          ) : (
+            <Link to={"/cart"} className={`p-2 bg-neutral-200`}>
+              My Cart : {getCart.totalCount}
+            </Link>
+          )}
         </div>
       )}
       <Link to={"/new-product"} className={`p-2 bg-neutral-200`}>

@@ -3,3 +3,8 @@ export type CartItem = {
   count: number;
   price: number;
 };
+
+export type GetCartsResponse = {
+  message: string;
+  carts: CartItem[];
+};
