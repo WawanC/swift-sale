@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { checkError } from "../utils/error.ts";
-import { createTransactionApi } from "../api/transaction.ts";
+import {
+  createTransactionApi,
+  getTransactionsApi,
+} from "../api/transaction.ts";
 import { useAppDispatch } from "../store/store.ts";
 import { fetchCartsThunk } from "../store/cart.ts";
+import { Transaction } from "../types/transaction.ts";
 
 export const useCreateTransaction = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -24,4 +28,30 @@ export const useCreateTransaction = () => {
   };
 
   return { mutate, error, isLoading };
+};
+
+export const useGetTransactions = () => {
+  const [data, setData] = useState<Transaction[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<{
+    message: string;
+    code: number;
+  } | null>(null);
+  const fetchData = async () => {
+    try {
+      setIsLoading(true);
+      const transactions = await getTransactionsApi();
+      setData(transactions);
+    } catch (e) {
+      checkError(e, setError);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  return { data, error, isLoading };
 };
