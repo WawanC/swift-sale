@@ -53,4 +53,8 @@ export class CartsService {
       relations: ['product'],
     });
   }
+
+  async clear(user: User) {
+    return await this.cartRepository.delete({ user: user });
+  }
 }

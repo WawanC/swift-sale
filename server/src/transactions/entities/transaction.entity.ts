@@ -17,9 +17,6 @@ export class Transaction {
   @OneToMany(() => TransactionItem, (item) => item.transaction)
   items: TransactionItem[];
 
-  @Column('int', { name: 'total_price' })
-  totalPrice: number;
-
   @ManyToOne(() => User, (user) => user.transactions, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
