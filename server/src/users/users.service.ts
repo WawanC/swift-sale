@@ -20,7 +20,7 @@ export class UsersService {
   }
 
   async findOneByEmail(email: string) {
-    return this.usersRepository.findOne({
+    return await this.usersRepository.findOne({
       where: {
         email: email,
       },
@@ -28,7 +28,7 @@ export class UsersService {
   }
 
   async findOneByUsername(username: string) {
-    return this.usersRepository.findOne({
+    return await this.usersRepository.findOne({
       where: {
         username: username,
       },
@@ -36,8 +36,18 @@ export class UsersService {
   }
 
   async findOneById(id: string) {
-    return this.usersRepository.findOne({
+    return await this.usersRepository.findOne({
       where: { id: id },
     });
+  }
+
+  async findOneWithPassword(id: string) {
+    return await this.usersRepository
+      .createQueryBuilder('user')
+      .where('user.id= :userId', {
+        userId: id,
+      })
+      .addSelect('user.password')
+      .getOne();
   }
 }

@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { v2 } from 'cloudinary';
 import * as fs from 'fs/promises';
 import { ProductPicture } from './entities/product-picture.entity';
+import { User } from '../users/user.entity';
 
 @Injectable()
 export class ProductsService {
@@ -19,6 +20,7 @@ export class ProductsService {
     price: number;
     description: string;
     pictures: Express.Multer.File[];
+    user: User;
   }) {
     const product = this.productsRepository.create({
       title: data.title.trim(),
@@ -26,6 +28,7 @@ export class ProductsService {
       description: data.description.trim(),
       pictures: [],
     });
+    product.user = data.user;
 
     const newProduct = await this.productsRepository.save(product);
 
@@ -37,13 +40,15 @@ export class ProductsService {
   }
 
   async findAll() {
-    return await this.productsRepository.find({ relations: ['pictures'] });
+    return await this.productsRepository.find({
+      relations: ['pictures', 'user'],
+    });
   }
 
   async findOne(id: string) {
     return await this.productsRepository.findOne({
       where: { id: id },
-      relations: ['pictures'],
+      relations: ['pictures', 'user'],
     });
   }
 

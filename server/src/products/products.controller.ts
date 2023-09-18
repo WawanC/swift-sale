@@ -7,6 +7,8 @@ import {
   Param,
   Post,
   Put,
+  Req,
+  UnauthorizedException,
   UploadedFiles,
   UseGuards,
 } from '@nestjs/common';
@@ -16,10 +18,15 @@ import { ProductParamDto } from './dto/product-param.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ValidPictures } from './decorators/valid-pictures.decorator';
 import { AuthGuard } from '../auth/auth.guard';
+import { Request } from 'express';
+import { UsersService } from '../users/users.service';
 
 @Controller('products')
 export class ProductsController {
-  constructor(private productsService: ProductsService) {}
+  constructor(
+    private productsService: ProductsService,
+    private usersService: UsersService,
+  ) {}
   @UseGuards(AuthGuard)
   @Post()
   @ValidPictures()
@@ -27,12 +34,20 @@ export class ProductsController {
     @UploadedFiles()
     pictures: Express.Multer.File[],
     @Body() createProductDto: CreateProductDto,
+    @Req() request: Request,
   ) {
+    if (!request.user) throw new UnauthorizedException();
+
+    const user = await this.usersService.findOneById(request.user.userId);
+
+    if (!user) throw new UnauthorizedException();
+
     const newProduct = await this.productsService.create({
       title: createProductDto.title,
       price: createProductDto.price,
       description: createProductDto.description,
       pictures: pictures,
+      user: user,
     });
 
     return {
@@ -73,12 +88,18 @@ export class ProductsController {
     @Body() updateProductDto: UpdateProductDto,
     @UploadedFiles()
     pictures: Express.Multer.File[],
+    @Req() request: Request,
   ) {
+    if (!request.user) throw new UnauthorizedException();
+
     const product = await this.productsService.findOne(params.id);
 
     if (!product) {
       throw new NotFoundException('Product not found');
     }
+
+    if (product.user.id !== request.user.userId)
+      throw new UnauthorizedException();
 
     const updatedProduct = await this.productsService.update(product, {
       title: updateProductDto.title,
@@ -95,12 +116,17 @@ export class ProductsController {
 
   @UseGuards(AuthGuard)
   @Delete(':id')
-  async delete(@Param() params: ProductParamDto) {
+  async delete(@Param() params: ProductParamDto, @Req() request: Request) {
+    if (!request.user) throw new UnauthorizedException();
+
     const product = await this.productsService.findOne(params.id);
 
     if (!product) {
       throw new NotFoundException('Product not found');
     }
+
+    if (product.user.id !== request.user.userId)
+      throw new UnauthorizedException();
 
     const deletedProduct = await this.productsService.delete(product);
 

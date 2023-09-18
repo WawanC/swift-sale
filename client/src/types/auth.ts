@@ -1,4 +1,4 @@
-export type UserAuthData = {
+export type User = {
   id: string;
   email: string;
   username: string;
@@ -17,5 +17,5 @@ export type LoginPayload = {
 
 export type GetMeResponse = {
   message: string;
-  user: UserAuthData;
+  user: User;
 };

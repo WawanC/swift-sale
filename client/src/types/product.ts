@@ -1,3 +1,5 @@
+import { User } from "./auth.ts";
+
 export type Picture = {
   public_id: string;
   url: string;
@@ -9,6 +11,7 @@ export type Product = {
   price: number;
   description: string;
   pictures: Picture[];
+  user: User;
 };
 
 export type CreateProductPayload = {

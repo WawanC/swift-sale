@@ -21,7 +21,7 @@ export const useGetCarts = () => {
   const totalPrice = useMemo(() => {
     let total = 0;
     items.forEach((item) => {
-      total += item.price;
+      total += item.price * item.count;
     });
     return total;
   }, [items]);

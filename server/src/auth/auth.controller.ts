@@ -48,7 +48,16 @@ export class AuthController {
 
     if (!user) throw new UnauthorizedException('Wrong credentials');
 
-    const loginResult = await this.authService.login(user, loginDto.password);
+    const userWithPassword = await this.usersService.findOneWithPassword(
+      user.id,
+    );
+
+    if (!userWithPassword) throw new UnauthorizedException('Wrong credentials');
+
+    const loginResult = await this.authService.login(
+      userWithPassword,
+      loginDto.password,
+    );
 
     if (!loginResult) throw new UnauthorizedException('Wrong credentials');
 

@@ -92,6 +92,9 @@ const ProductDetailPage = () => {
               <p className={`italic text-xl font-light`}>
                 {getProduct.data.description}
               </p>
+              <h2 className={`text-xl font-semibold`}>
+                Posted by : {getProduct.data.user.username}
+              </h2>
             </div>
           </section>
         )
