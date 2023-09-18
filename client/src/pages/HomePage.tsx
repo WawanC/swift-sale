@@ -1,59 +1,11 @@
-import { Link } from "react-router-dom";
 import ProductList from "../components/ProductList.tsx";
 import { useGetProducts } from "../hooks/Product.tsx";
-import { useGetMe, useLogout } from "../hooks/Auth.tsx";
-import { useGetCarts } from "../hooks/Cart.tsx";
 
 const HomePage = () => {
   const getProducts = useGetProducts();
-  const getMe = useGetMe();
-  const logout = useLogout();
-  const getCarts = useGetCarts();
 
   return (
-    <main
-      className={`flex flex-col items-center justify-center p-8 gap-8 flex-1 text-xl`}
-    >
-      <h1 className={`text-4xl font-bold`}>Hello from SwiftSale</h1>
-      {getMe.data.username && (
-        <div className={`flex gap-4 items-center`}>
-          <h2 className={`text-2xl font-semibold`}>
-            Hello {getMe.data.username}
-          </h2>
-
-          {getCarts.isFetching ? (
-            <p className={`text-2xl`}>Loading...</p>
-          ) : (
-            <Link to={"/cart"} className={`p-2 bg-neutral-200`}>
-              My Cart : {getCarts.totalCount}
-            </Link>
-          )}
-
-          <Link to={"/transactions"} className={`p-2 bg-neutral-200`}>
-            My Transactions
-          </Link>
-        </div>
-      )}
-      <Link to={"/new-product"} className={`p-2 bg-neutral-200`}>
-        Create New Product
-      </Link>
-      {getMe.data.userId ? (
-        <button
-          className={`underline underline-offset-8`}
-          onClick={() => logout.mutate()}
-        >
-          Logout
-        </button>
-      ) : (
-        <div className={`flex gap-4`}>
-          <Link to={"/register"} className={`underline underline-offset-8`}>
-            Register
-          </Link>
-          <Link to={"/login"} className={`underline underline-offset-8`}>
-            Login
-          </Link>
-        </div>
-      )}
+    <main className={`flex flex-col items-center p-8 gap-8 flex-1 text-xl`}>
       {getProducts.isFetching ? (
         <span>Loading...</span>
       ) : (

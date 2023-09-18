@@ -44,7 +44,14 @@ const NavBar = () => {
                   className={"w-8 h-8 stroke-secondary hover:stroke-primary"}
                 />
               </Link>
-              <Link to={"/cart"}>
+              <Link to={"/cart"} className={`relative`}>
+                <div
+                  className={`w-6 aspect-square absolute -top-2 -right-2 
+                  bg-primary rounded-full text-accent
+                  flex justify-center items-center text-sm`}
+                >
+                  3
+                </div>
                 <CartIcon
                   className={"w-8 h-8 stroke-secondary hover:stroke-primary"}
                 />
