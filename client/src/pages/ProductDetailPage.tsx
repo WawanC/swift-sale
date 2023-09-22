@@ -38,7 +38,7 @@ const ProductDetailPage = () => {
   return (
     <main className={`flex-1 flex justify-center items-center`}>
       <article
-        className={`min-w-[75%] rounded shadow-lg border-2 py-8
+        className={`w-3/4 rounded shadow-lg border-2 py-8
         flex`}
       >
         {/* Pictures Section */}

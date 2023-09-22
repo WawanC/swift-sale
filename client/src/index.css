@@ -8,6 +8,10 @@
     .btn {
         @apply bg-secondary py-2 px-4 rounded w-fit font-semibold
     }
+
+    .input {
+        @apply p-2 border-2 rounded-lg outline-accent w-full
+    }
 }
 
 #root {
