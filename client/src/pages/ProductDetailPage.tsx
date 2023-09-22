@@ -37,66 +37,82 @@ const ProductDetailPage = () => {
 
   return (
     <main className={`flex-1 flex justify-center items-center`}>
-      <article
-        className={`w-3/4 rounded shadow-lg border-2 py-8
+      {getProduct.isLoading ? (
+        <div>
+          <p className={`text-4xl font-bold`}>Loading...</p>
+        </div>
+      ) : (
+        getProduct.data && (
+          <article
+            className={`w-3/4 rounded shadow-lg border-2 py-8
         flex`}
-      >
-        {/* Pictures Section */}
-        <section className={`flex-[1.25] p-4 flex`}>
-          {getProduct.data?.pictures && (
-            <ProductPictureDisplay pictures={getProduct.data?.pictures} />
-          )}
-        </section>
-
-        {/* Info Section */}
-        <section
-          className={`flex-1 border-x flex flex-col items-center px-8 py-4 gap-8`}
-        >
-          <h1 className={"text-4xl font-bold"}>{getProduct.data?.title}</h1>
-          <h2 className={`text-3xl font-semibold`}>
-            ${getProduct.data?.price}
-          </h2>
-          <p
-            className={`font-sans text-base font-light italic w-full text-center`}
           >
-            {getProduct.data?.description}
-          </p>
-        </section>
+            {/* Pictures Section */}
+            <section className={`flex-[1.25] p-4 flex`}>
+              {getProduct.data.pictures && (
+                <ProductPictureDisplay
+                  pictures={
+                    getProduct.data.pictures.length > 0
+                      ? getProduct.data.pictures
+                      : []
+                  }
+                />
+              )}
+            </section>
 
-        {/* Action Section */}
-        <section className={`flex-[0.75] flex flex-col gap-4 p-4`}>
-          {/* Sold by info */}
-          <div className={`flex flex-col gap-2`}>
-            <span className={`text-xl font-semibold`}>Sold By :</span>
-            <div className={`flex gap-4 items-center`}>
-              <AccountIcon className={`w-16 h-16`} strokeWidth={0.5} />
-              <span className={`text-xl`}>
-                {getProduct.data?.user.username}
-              </span>
-            </div>
-          </div>
+            {/* Info Section */}
+            <section
+              className={`flex-1 border-x flex flex-col items-center px-8 py-4 gap-8`}
+            >
+              <h1 className={"text-4xl font-bold"}>{getProduct.data.title}</h1>
+              <h2 className={`text-3xl font-semibold`}>
+                ${getProduct.data.price}
+              </h2>
+              <p
+                className={`font-sans text-base font-light italic w-full text-center`}
+              >
+                {getProduct.data.description}
+              </p>
+            </section>
 
-          {/*  Add Cart button */}
-          <div className={`flex flex-col gap-4 items-center`}>
-            <div className={`flex border-2 text-2xl rounded py-2 px-4 w-1/2`}>
-              <button
-                className={`text-neutral-400`}
-                onClick={decrementCartCounter}
-              >
-                -
-              </button>
-              <span className={`flex-1 text-center`}>{addCartCounter}</span>
-              <button
-                className={`text-neutral-400`}
-                onClick={incrementCartCounter}
-              >
-                +
-              </button>
-            </div>
-            <button className={`btn`}>Add to Cart</button>
-          </div>
-        </section>
-      </article>
+            {/* Action Section */}
+            <section className={`flex-[0.75] flex flex-col gap-4 p-4`}>
+              {/* Sold by info */}
+              <div className={`flex flex-col gap-2`}>
+                <span className={`text-xl font-semibold`}>Sold By :</span>
+                <div className={`flex gap-4 items-center`}>
+                  <AccountIcon className={`w-16 h-16`} strokeWidth={0.5} />
+                  <span className={`text-xl`}>
+                    {getProduct.data.user.username}
+                  </span>
+                </div>
+              </div>
+
+              {/*  Add Cart button */}
+              <div className={`flex flex-col gap-4 items-center`}>
+                <div
+                  className={`flex border-2 text-2xl rounded py-2 px-4 w-1/2`}
+                >
+                  <button
+                    className={`text-neutral-400`}
+                    onClick={decrementCartCounter}
+                  >
+                    -
+                  </button>
+                  <span className={`flex-1 text-center`}>{addCartCounter}</span>
+                  <button
+                    className={`text-neutral-400`}
+                    onClick={incrementCartCounter}
+                  >
+                    +
+                  </button>
+                </div>
+                <button className={`btn`}>Add to Cart</button>
+              </div>
+            </section>
+          </article>
+        )
+      )}
     </main>
   );
 };
