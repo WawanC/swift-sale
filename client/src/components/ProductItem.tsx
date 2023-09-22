@@ -13,7 +13,9 @@ const ProductItem: FC<Props> = (props) => {
       className={`flex flex-col shadow border-2 border-secondary 
       p-4 rounded h-fit gap-2 text-xl`}
     >
-      <div className={`w-[200px] aspect-square bg-secondary rounded shadow`}>
+      <div
+        className={`w-[200px] aspect-square bg-secondary rounded shadow overflow-hidden`}
+      >
         <img
           src={props.product.pictures[0].url}
           alt={props.product.id}

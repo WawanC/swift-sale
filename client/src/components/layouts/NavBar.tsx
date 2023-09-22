@@ -12,7 +12,9 @@ const NavBar = () => {
     <nav
       className={`px-16 py-2 w-full bg-accent text-primary flex items-center`}
     >
-      <h1 className={`text-2xl font-bold`}>SwiftSale</h1>
+      <Link to={"/"} className={`text-2xl font-bold`}>
+        SwiftSale
+      </Link>
       <div className={`flex-1 px-16 flex justify-center`}>
         <input
           type="text"

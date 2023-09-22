@@ -1,6 +1,7 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { useGetProduct } from "../hooks/Product.tsx";
+import AccountIcon from "../components/icons/AccountIcon.tsx";
+import { useCallback, useState } from "react";
 
 type Params = {
   productId: string;
@@ -9,13 +10,23 @@ type Params = {
 const ProductDetailPage = () => {
   const { productId } = useParams() as Params;
   const getProduct = useGetProduct(productId);
-  const navigate = useNavigate();
-  const [currentProductIdx, setCurrentProductIdx] = useState(0);
+  const [addCartCounter, setAddCartCounter] = useState(1);
+
+  const incrementCartCounter = useCallback(() => {
+    setAddCartCounter((counter) => counter + 1);
+  }, []);
+
+  const decrementCartCounter = useCallback(() => {
+    setAddCartCounter((counter) => {
+      if (counter === 1) return counter;
+      return counter - 1;
+    });
+  }, []);
 
   if (
     getProduct.error &&
-    "status" in getProduct.error &&
-    getProduct.error.status === 404
+    "code" in getProduct.error &&
+    getProduct.error.code === 404
   )
     return (
       <main className={`flex-1 flex justify-center p-8`}>
@@ -25,80 +36,77 @@ const ProductDetailPage = () => {
 
   return (
     <main className={`flex-1 flex justify-center items-center`}>
-      <button
-        className={`text-2xl absolute top-4 left-4`}
-        onClick={() => navigate(-1)}
+      <article
+        className={`w-3/4 h-[500px] rounded shadow-lg border-2 py-8
+        flex`}
       >
-        {"< Back"}
-      </button>
-      {getProduct.isLoading ? (
-        <span>Loading...</span>
-      ) : (
-        getProduct.data && (
-          <section
-            className={`flex h-fit w-3/5 border border-black rounded-xl shadow overflow-hidden`}
+        {/* Pictures Section */}
+        <section className={`flex-[1.25] p-4 flex flex-col items-center`}>
+          <div
+            className={`w-3/4 aspect-square bg-neutral-200 border 
+            rounded shadow overflow-hidden`}
           >
-            <div
-              className={`w-1/2 aspect-square p-8 border-r border-black
-            flex flex-col items-center gap-8`}
-            >
-              <div
-                className={`rounded overflow-hidden shadow w-full max-h-[75%]`}
+            <img
+              src={getProduct.data?.pictures[0]?.url}
+              alt={getProduct.data?.pictures[0]?.public_id}
+              className={`w-full h-full object-cover`}
+            />
+          </div>
+        </section>
+
+        {/* Info Section */}
+        <section
+          className={`flex-1 border-x flex flex-col items-center px-8 py-4 gap-8`}
+        >
+          <h1 className={"text-4xl font-bold"}>{getProduct.data?.title}</h1>
+          <h2 className={`text-3xl font-semibold`}>
+            ${getProduct.data?.price}
+          </h2>
+          <p
+            className={`font-sans text-base font-light italic w-full text-center`}
+          >
+            {getProduct.data?.description}
+          </p>
+        </section>
+
+        {/* Action Section */}
+        <section className={`flex-[0.75] flex flex-col gap-4 p-4`}>
+          {/* Sold by info */}
+          <div className={`flex flex-col gap-2`}>
+            <span className={`text-xl font-semibold`}>Sold By :</span>
+            <div className={`flex gap-4 items-center`}>
+              <AccountIcon className={`w-16 h-16 stroke-[0.5]`} />
+              <span className={`text-xl`}>
+                {getProduct.data?.user.username}
+              </span>
+            </div>
+          </div>
+
+          {/*  Add Cart button */}
+          <div className={`flex flex-col gap-4 items-center`}>
+            <div className={`flex border-2 text-2xl rounded py-2 px-4 w-1/2`}>
+              <button
+                className={`text-neutral-400`}
+                onClick={decrementCartCounter}
               >
-                {getProduct.data.pictures.length > 0 ? (
-                  <img
-                    src={getProduct.data.pictures[currentProductIdx].url}
-                    alt="gambar"
-                    className={`w-full h-full object-contain`}
-                  />
-                ) : (
-                  <div className={`w-full aspect-square bg-neutral-500`}></div>
-                )}
-              </div>
-              {getProduct.data.pictures.length > 0 && (
-                <div className={`flex gap-4 text-2xl`}>
-                  <button
-                    onClick={() => {
-                      if (currentProductIdx > 0)
-                        setCurrentProductIdx((prev) => prev - 1);
-                    }}
-                  >
-                    {"<"}
-                  </button>
-                  <span>
-                    {currentProductIdx + 1} / {getProduct.data.pictures.length}
-                  </span>
-                  <button
-                    onClick={() => {
-                      if (
-                        getProduct.data &&
-                        currentProductIdx < getProduct.data.pictures.length - 1
-                      )
-                        setCurrentProductIdx((prev) => prev + 1);
-                    }}
-                  >
-                    {">"}
-                  </button>
-                </div>
-              )}
+                -
+              </button>
+              <span className={`flex-1 text-center`}>{addCartCounter}</span>
+              <button
+                className={`text-neutral-400`}
+                onClick={incrementCartCounter}
+              >
+                +
+              </button>
             </div>
-            <div
-              className={`w-1/2 aspect-square flex flex-col gap-4 p-16 items-center`}
+            <button
+              className={`bg-secondary py-2 px-4 rounded w-fit font-semibold`}
             >
-              <h1 className={`text-4xl font-bold`}>{getProduct.data.title}</h1>
-              <h2 className={`text-2xl font-semibold`}>
-                ${getProduct.data.price}
-              </h2>
-              <p className={`italic text-xl font-light`}>
-                {getProduct.data.description}
-              </p>
-              <h2 className={`text-xl font-semibold`}>
-                Posted by : {getProduct.data.user.username}
-              </h2>
-            </div>
-          </section>
-        )
-      )}
+              Add to Cart
+            </button>
+          </div>
+        </section>
+      </article>
     </main>
   );
 };
