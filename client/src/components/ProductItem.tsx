@@ -22,9 +22,12 @@ const ProductItem: FC<Props> = (props) => {
           className={`object-cover w-full h-full`}
         />
       </div>
-      <div className={`flex flex-col`}>
+      <div className={`flex flex-col gap-2`}>
         <h1 className={`font-bold`}>{props.product.title}</h1>
         <h2>$ {props.product.price}</h2>
+        <div className={`flex justify-center`}>
+          <button className={`btn text-base`}>Add to Cart</button>
+        </div>
       </div>
     </Link>
   );

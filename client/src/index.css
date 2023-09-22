@@ -4,6 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+    .btn {
+        @apply bg-secondary py-2 px-4 rounded w-fit font-semibold
+    }
+}
+
 #root {
     min-height: 100vh;
     display: flex;

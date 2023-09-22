@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useGetProduct } from "../hooks/Product.tsx";
 import AccountIcon from "../components/icons/AccountIcon.tsx";
 import { useCallback, useState } from "react";
+import ProductPictureDisplay from "../components/ProductPictureDisplay.tsx";
 
 type Params = {
   productId: string;
@@ -37,21 +38,14 @@ const ProductDetailPage = () => {
   return (
     <main className={`flex-1 flex justify-center items-center`}>
       <article
-        className={`w-3/4 h-[500px] rounded shadow-lg border-2 py-8
+        className={`min-w-[75%] rounded shadow-lg border-2 py-8
         flex`}
       >
         {/* Pictures Section */}
-        <section className={`flex-[1.25] p-4 flex flex-col items-center`}>
-          <div
-            className={`w-3/4 aspect-square bg-neutral-200 border 
-            rounded shadow overflow-hidden`}
-          >
-            <img
-              src={getProduct.data?.pictures[0]?.url}
-              alt={getProduct.data?.pictures[0]?.public_id}
-              className={`w-full h-full object-cover`}
-            />
-          </div>
+        <section className={`flex-[1.25] p-4 flex`}>
+          {getProduct.data?.pictures && (
+            <ProductPictureDisplay pictures={getProduct.data?.pictures} />
+          )}
         </section>
 
         {/* Info Section */}
@@ -75,7 +69,7 @@ const ProductDetailPage = () => {
           <div className={`flex flex-col gap-2`}>
             <span className={`text-xl font-semibold`}>Sold By :</span>
             <div className={`flex gap-4 items-center`}>
-              <AccountIcon className={`w-16 h-16 stroke-[0.5]`} />
+              <AccountIcon className={`w-16 h-16`} strokeWidth={0.5} />
               <span className={`text-xl`}>
                 {getProduct.data?.user.username}
               </span>
@@ -99,11 +93,7 @@ const ProductDetailPage = () => {
                 +
               </button>
             </div>
-            <button
-              className={`bg-secondary py-2 px-4 rounded w-fit font-semibold`}
-            >
-              Add to Cart
-            </button>
+            <button className={`btn`}>Add to Cart</button>
           </div>
         </section>
       </article>
