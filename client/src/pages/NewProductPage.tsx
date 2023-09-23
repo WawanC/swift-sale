@@ -50,7 +50,7 @@ const NewProductPage = () => {
           pictures: pictures,
         });
 
-        navigate("/");
+        navigate("/account");
       } catch (e) {
         console.error(e);
       }

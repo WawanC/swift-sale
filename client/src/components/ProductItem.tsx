@@ -16,11 +16,13 @@ const ProductItem: FC<Props> = (props) => {
       <div
         className={`w-[200px] aspect-square bg-secondary rounded shadow overflow-hidden`}
       >
-        <img
-          src={props.product.pictures[0].url}
-          alt={props.product.id}
-          className={`object-cover w-full h-full`}
-        />
+        {props.product.pictures.length > 0 && (
+          <img
+            src={props.product.pictures[0].url}
+            alt={props.product.id}
+            className={`object-cover w-full h-full`}
+          />
+        )}
       </div>
       <div className={`flex flex-col gap-2`}>
         <h1 className={`font-bold`}>{props.product.title}</h1>
