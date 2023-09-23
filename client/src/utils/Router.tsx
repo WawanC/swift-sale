@@ -10,6 +10,7 @@ import PublicRoute from "../guards/PublicRoute.tsx";
 import FreeRoute from "../guards/FreeRoute.tsx";
 import CartPage from "../pages/CartPage.tsx";
 import TransactionsPage from "../pages/TransactionsPage.tsx";
+import AccountPage from "../pages/AccountPage.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -43,6 +44,7 @@ export const router = createBrowserRouter([
       { path: "/edit-product/:productId", element: <EditProductPage /> },
       { path: "/cart", element: <CartPage /> },
       { path: "/transactions", element: <TransactionsPage /> },
+      { path: "/account", element: <AccountPage /> },
     ],
   },
 ]);
