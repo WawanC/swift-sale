@@ -36,7 +36,7 @@ const ProductDetailPage = () => {
     );
 
   return (
-    <main className={`flex-1 flex justify-center items-center`}>
+    <main className={`flex-1 flex justify-center md:items-center`}>
       {getProduct.isLoading ? (
         <div>
           <p className={`text-4xl font-bold`}>Loading...</p>
@@ -44,11 +44,11 @@ const ProductDetailPage = () => {
       ) : (
         getProduct.data && (
           <article
-            className={`w-3/4 rounded shadow-lg border-2 py-8
-        flex`}
+            className={`w-full md:w-3/4 rounded shadow-lg md:border-2 md:py-8
+        flex-col md:flex`}
           >
             {/* Pictures Section */}
-            <section className={`flex-[1.25] p-4 flex`}>
+            <section className={`md:flex-[1.25] md:p-4`}>
               {getProduct.data.pictures && (
                 <ProductPictureDisplay
                   pictures={
@@ -62,7 +62,8 @@ const ProductDetailPage = () => {
 
             {/* Info Section */}
             <section
-              className={`flex-1 border-x flex flex-col items-center px-8 py-4 gap-8`}
+              className={`flex-1 md:border-x flex flex-col items-center 
+              px-8 py-4 gap-4 md:gap-8`}
             >
               <h1 className={"text-4xl font-bold"}>{getProduct.data.title}</h1>
               <h2 className={`text-3xl font-semibold`}>

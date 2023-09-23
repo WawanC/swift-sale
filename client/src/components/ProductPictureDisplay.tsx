@@ -36,8 +36,8 @@ const ProductPictureDisplay: FC<Props> = (props) => {
     <div className={`w-full flex flex-col gap-8 items-center`}>
       {/* Picture Component */}
       <div
-        className={`w-3/4 aspect-square bg-neutral-200 border 
-            rounded shadow overflow-hidden`}
+        className={`w-full md:w-3/4 aspect-square bg-neutral-200 md:border 
+            md:rounded shadow overflow-hidden`}
       >
         {props.pictures.length <= 0 ? (
           <div className={`w-full h-full object-cover bg-neutral-400`} />
