@@ -10,7 +10,7 @@ const HomePage = () => {
         <span>Loading...</span>
       ) : (
         getProducts.data && (
-          <section className={`w-3/4`}>
+          <section className={`w-full md:w-3/4`}>
             <ProductList products={getProducts.data} />
           </section>
         )

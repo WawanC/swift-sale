@@ -34,6 +34,18 @@ const NavBar = () => {
         <MenuIcon className={"w-8 aspect-square"} />
       </button>
 
+      {/* Cart Button Icon (Mobile) */}
+      <Link to={"/cart"} className={`absolute right-4 md:hidden`}>
+        <div
+          className={`w-6 aspect-square absolute -top-2 -right-2 
+                  bg-primary rounded-full text-accent
+                  flex justify-center items-center text-sm`}
+        >
+          {getCarts.totalCount}
+        </div>
+        <CartIcon className={"w-8 h-8 stroke-primary hover:stroke-primary"} />
+      </Link>
+
       {/* App Logo */}
       <Link to={"/"} className={`text-2xl font-bold`}>
         SwiftSale
@@ -90,7 +102,7 @@ const NavBar = () => {
                   }
                 />
               </Link>
-              <Link to={"/cart"} className={`relative`}>
+              <Link to={"/cart"} className={`relative hidden md:block`}>
                 {getCarts.totalCount > 0 && (
                   <div
                     className={`w-6 aspect-square absolute -top-2 -right-2 
