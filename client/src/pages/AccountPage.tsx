@@ -15,7 +15,7 @@ const AccountPage = () => {
 
   return (
     <main className={`flex-1 flex justify-center py-16`}>
-      <article className={`w-1/2 h-[500px] flex flex-col gap-4`}>
+      <article className={`w-1/2 flex flex-col gap-4`}>
         {/*    Account Info Section */}
         <section className={`flex border-2 rounded shadow p-8`}>
           <div className={"flex justify-center items-center px-16"}>

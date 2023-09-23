@@ -1,12 +1,23 @@
 import { Product } from "../types/product.ts";
-import { FC } from "react";
+import { FC, MouseEventHandler, useCallback } from "react";
 import { Link } from "react-router-dom";
+import { useAddCart } from "../hooks/Cart.tsx";
 
 type Props = {
   product: Product;
 };
 
 const ProductItem: FC<Props> = (props) => {
+  const addCart = useAddCart();
+
+  const addCartHandler: MouseEventHandler = useCallback(
+    async (e) => {
+      e.preventDefault();
+      await addCart.mutate({ productId: props.product.id, count: 1 });
+    },
+    [addCart],
+  );
+
   return (
     <Link
       to={`/products/${props.product.id}`}
@@ -28,7 +39,9 @@ const ProductItem: FC<Props> = (props) => {
         <h1 className={`font-bold`}>{props.product.title}</h1>
         <h2>$ {props.product.price}</h2>
         <div className={`flex justify-center`}>
-          <button className={`btn text-base`}>Add to Cart</button>
+          <button className={`btn text-base`} onClick={addCartHandler}>
+            Add to Cart
+          </button>
         </div>
       </div>
     </Link>

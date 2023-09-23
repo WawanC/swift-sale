@@ -50,7 +50,9 @@ export class CartsService {
       where: {
         user: user,
       },
-      relations: ['product'],
+      relations: {
+        product: { pictures: true },
+      },
     });
   }
 

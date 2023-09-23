@@ -3,10 +3,12 @@ import AccountIcon from "../icons/AccountIcon.tsx";
 import CartIcon from "../icons/CartIcon.tsx";
 import LogoutIcon from "../icons/LogoutIcon.tsx";
 import { useGetMe, useLogout } from "../../hooks/Auth.tsx";
+import { useGetCarts } from "../../hooks/Cart.tsx";
 
 const NavBar = () => {
   const getMe = useGetMe();
   const logout = useLogout();
+  const getCarts = useGetCarts();
 
   return (
     <nav
@@ -47,13 +49,15 @@ const NavBar = () => {
                 />
               </Link>
               <Link to={"/cart"} className={`relative`}>
-                <div
-                  className={`w-6 aspect-square absolute -top-2 -right-2 
+                {getCarts.totalCount > 0 && (
+                  <div
+                    className={`w-6 aspect-square absolute -top-2 -right-2 
                   bg-primary rounded-full text-accent
                   flex justify-center items-center text-sm`}
-                >
-                  3
-                </div>
+                  >
+                    {getCarts.totalCount}
+                  </div>
+                )}
                 <CartIcon
                   className={"w-8 h-8 stroke-secondary hover:stroke-primary"}
                 />
