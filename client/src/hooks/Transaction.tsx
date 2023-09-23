@@ -41,7 +41,12 @@ export const useGetTransactions = () => {
     try {
       setIsLoading(true);
       const transactions = await getTransactionsApi();
-      setData(transactions);
+      setData(
+        transactions.sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+        ),
+      );
     } catch (e) {
       checkError(e, setError);
     } finally {

@@ -1,7 +1,8 @@
 import AccountIcon from "../components/icons/AccountIcon.tsx";
 import { useGetMe } from "../hooks/Auth.tsx";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useMemo } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import MyTransactionList from "../components/account/MyTransactionList.tsx";
 import MyProductList from "../components/account/MyProductList.tsx";
 
 enum Menu {
@@ -10,14 +11,22 @@ enum Menu {
 }
 
 const AccountPage = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const getMe = useGetMe();
-  const [selectedMenu, setSelectedMenu] = useState<Menu>(Menu.Products);
+
+  const selectedMenu = useMemo(
+    () =>
+      searchParams.has("menu") && searchParams.get("menu") === "transactions"
+        ? Menu.Transactions
+        : Menu.Products,
+    [searchParams],
+  );
 
   return (
     <main className={`flex-1 flex justify-center py-16`}>
       <article className={`w-1/2 flex flex-col gap-4`}>
         {/*    Account Info Section */}
-        <section className={`flex border-2 rounded shadow p-8`}>
+        <section className={`flex border-2 rounded-lg shadow p-8`}>
           <div className={"flex justify-center items-center px-16"}>
             <AccountIcon className={`w-64 aspect-square`} strokeWidth={0.5} />
           </div>
@@ -37,7 +46,7 @@ const AccountPage = () => {
               className={`btn flex-1 bg-primary border-2 ${
                 selectedMenu === Menu.Products && "bg-secondary border-none"
               }`}
-              onClick={() => setSelectedMenu(Menu.Products)}
+              onClick={() => setSearchParams({ menu: "products" })}
             >
               My Products
             </button>
@@ -45,7 +54,7 @@ const AccountPage = () => {
               className={`btn flex-1 bg-primary border-2 ${
                 selectedMenu === Menu.Transactions && "bg-secondary border-none"
               }`}
-              onClick={() => setSelectedMenu(Menu.Transactions)}
+              onClick={() => setSearchParams({ menu: "transactions" })}
             >
               My Transactions
             </button>
@@ -68,7 +77,11 @@ const AccountPage = () => {
             </div>
 
             {/*  Content List Section */}
-            <MyProductList />
+            {selectedMenu === Menu.Products ? (
+              <MyProductList />
+            ) : (
+              <MyTransactionList />
+            )}
           </div>
         </section>
       </article>

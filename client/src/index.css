@@ -6,7 +6,7 @@
 
 @layer components {
     .btn {
-        @apply bg-secondary py-2 px-4 rounded w-fit font-semibold
+        @apply bg-secondary py-2 px-4 rounded w-fit font-semibold disabled:opacity-50
     }
 
     .input {

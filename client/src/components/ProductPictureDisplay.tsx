@@ -51,23 +51,27 @@ const ProductPictureDisplay: FC<Props> = (props) => {
       </div>
 
       {/* Actions Component */}
-      <div className={`flex text-3xl gap-8 items-center`}>
-        <button type={"button"} onClick={changeToPreviousPicture}>
-          <LeftIcon className={"w-8 h-8"} />
-        </button>
-        <div className={`flex gap-2 items-center`}>
-          {props.pictures.map((picture) => (
-            <div
-              className={`w-4 aspect-square rounded-full ${
-                activePicture.url === picture.url ? "bg-accent" : "bg-secondary"
-              }`}
-            />
-          ))}
+      {props.pictures.length > 1 && (
+        <div className={`flex text-3xl gap-8 items-center`}>
+          <button type={"button"} onClick={changeToPreviousPicture}>
+            <LeftIcon className={"w-8 h-8"} />
+          </button>
+          <div className={`flex gap-2 items-center`}>
+            {props.pictures.map((picture) => (
+              <div
+                className={`w-4 aspect-square rounded-full ${
+                  activePicture.url === picture.url
+                    ? "bg-accent"
+                    : "bg-secondary"
+                }`}
+              />
+            ))}
+          </div>
+          <button type={"button"} onClick={changeToNextPicture}>
+            <RightIcon className={"w-8 h-8"} />
+          </button>
         </div>
-        <button type={"button"} onClick={changeToNextPicture}>
-          <RightIcon className={"w-8 h-8"} />
-        </button>
-      </div>
+      )}
     </div>
   );
 };

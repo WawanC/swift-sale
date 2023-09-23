@@ -17,9 +17,15 @@ const MyProductList = () => {
 
   return (
     <ul className={`py-4 flex flex-col gap-4`}>
-      {myProducts.map((product) => (
-        <MyProductItem key={product.id} product={product} />
-      ))}
+      {getProducts.isFetching ? (
+        <div className={`flex justify-center p-4`}>
+          <p className={`text-4xl font-bold`}>Loading...</p>
+        </div>
+      ) : (
+        myProducts.map((product) => (
+          <MyProductItem key={product.id} product={product} />
+        ))
+      )}
     </ul>
   );
 };
