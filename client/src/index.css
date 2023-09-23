@@ -10,7 +10,7 @@
     }
 
     .input {
-        @apply p-2 border-2 rounded-lg outline-accent w-full
+        @apply p-2 border-2 border-secondary rounded-lg outline-accent w-full
     }
 }
 

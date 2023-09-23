@@ -1,6 +1,6 @@
 import { FormEventHandler, useState } from "react";
 import { useRegister } from "../hooks/Auth.tsx";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
   const [enteredEmail, setEnteredEmail] = useState("");
@@ -52,79 +52,100 @@ const RegisterPage = () => {
   const displayedError = error || register.error?.message;
 
   return (
-    <main className={`flex-1 flex flex-col items-center p-16 gap-8`}>
-      <h1 className={`text-4xl font-bold`}>Create New Account</h1>
-      {register.isLoading ? (
-        <span className={`text-2xl font-semibold`}>Loading...</span>
-      ) : (
-        <form
-          className={`flex flex-col w-1/4 gap-4 text-xl`}
-          onSubmit={formSubmitHandler}
-        >
-          {displayedError && (
-            <span className={`text-red-500 font-semibold text-center`}>
-              {displayedError}
-            </span>
-          )}
-          <div className={`flex flex-col gap-2`}>
-            <label htmlFor="email" className={`font-semibold`}>
-              E-Mail :
-            </label>
-            <input
-              type="email"
-              id="email"
-              required={true}
-              className={`border border-black p-2`}
-              value={enteredEmail}
-              onChange={(e) => setEnteredEmail(e.target.value)}
-            />
+    <main className={`flex-1 flex justify-center items-center`}>
+      <section
+        className={`h-fit border-2 border-secondary rounded-lg shadow
+        flex flex-col px-16 py-4 items-center gap-8`}
+      >
+        <h1 className={`text-4xl font-bold text-center`}>Create an Account</h1>
+        {register.isLoading ? (
+          <div className={`flex justify-center p-4`}>
+            <p className={`text-2xl font-bold`}>Loading...</p>
           </div>
-          <div className={`flex flex-col gap-2`}>
-            <label htmlFor="username" className={`font-semibold`}>
-              Username :
-            </label>
-            <input
-              type="text"
-              id="username"
-              required={true}
-              className={`border border-black p-2`}
-              value={enteredUsername}
-              onChange={(e) => setEnteredUsername(e.target.value)}
-            />
-          </div>
-          <div className={`flex flex-col gap-2`}>
-            <label htmlFor="password" className={`font-semibold`}>
-              Password :
-            </label>
-            <input
-              type="password"
-              id="password"
-              required={true}
-              className={`border border-black p-2`}
-              value={enteredPassword}
-              onChange={(e) => setEnteredPassword(e.target.value)}
-            />
-          </div>
-          <div className={`flex flex-col gap-2`}>
-            <label htmlFor="password2" className={`font-semibold`}>
-              Repeat Password :
-            </label>
-            <input
-              type="password"
-              id="password2"
-              required={true}
-              className={`border border-black p-2`}
-              value={enteredPassword2}
-              onChange={(e) => setEnteredPassword2(e.target.value)}
-            />
-          </div>
-          <div className={`flex justify-center`}>
-            <button type={"submit"} className={`p-2 bg-neutral-200`}>
-              Register
-            </button>
-          </div>
-        </form>
-      )}
+        ) : (
+          <form
+            className={`flex flex-col gap-4 w-full text-xl`}
+            onSubmit={formSubmitHandler}
+          >
+            {displayedError && (
+              <div className={`flex justify-center`}>
+                <span className={`text-xl text-red-500`}>{displayedError}</span>
+              </div>
+            )}
+
+            <div className={`flex flex-col gap-2`}>
+              <label htmlFor="email" className={`font-semibold`}>
+                E-Mail :
+              </label>
+              <input
+                type="text"
+                id="email"
+                required={true}
+                className={`input`}
+                value={enteredEmail}
+                onChange={(e) => setEnteredEmail(e.target.value)}
+              />
+            </div>
+
+            <div className={`flex flex-col gap-2`}>
+              <label htmlFor="username" className={`font-semibold`}>
+                Username :
+              </label>
+              <input
+                type="text"
+                id="username"
+                required={true}
+                className={`input`}
+                value={enteredUsername}
+                onChange={(e) => setEnteredUsername(e.target.value)}
+              />
+            </div>
+
+            <div className={`flex flex-col gap-2`}>
+              <label htmlFor="password" className={`font-semibold`}>
+                Password :
+              </label>
+              <input
+                type="password"
+                id="password"
+                required={true}
+                className={`input`}
+                value={enteredPassword}
+                onChange={(e) => setEnteredPassword(e.target.value)}
+              />
+            </div>
+
+            <div className={`flex flex-col gap-2`}>
+              <label htmlFor="password2" className={`font-semibold`}>
+                Repeat Password :
+              </label>
+              <input
+                type="password"
+                id="password2"
+                required={true}
+                className={`input`}
+                value={enteredPassword2}
+                onChange={(e) => setEnteredPassword2(e.target.value)}
+              />
+            </div>
+
+            <div className={`flex justify-center mt-4`}>
+              <button type={"submit"} className={`btn`}>
+                Register
+              </button>
+            </div>
+          </form>
+        )}
+        <div className={`flex flex-col text-xl text-center`}>
+          <p>Already have an account ?</p>
+          <p>
+            Login{" "}
+            <Link to={"/login"} className={`underline`}>
+              here
+            </Link>
+          </p>
+        </div>
+      </section>
     </main>
   );
 };

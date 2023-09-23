@@ -1,5 +1,5 @@
 import { FormEventHandler, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/Auth.tsx";
 
 const LoginPage = () => {
@@ -28,55 +28,71 @@ const LoginPage = () => {
   const displayedError = error || login.error?.message;
 
   return (
-    <main className={`flex-1 flex flex-col items-center p-16 gap-8`}>
-      <h1 className={`text-4xl font-bold`}>Sign-In</h1>
-      {login.isLoading ? (
-        <span className={`text-2xl font-semibold`}>Loading...</span>
-      ) : (
-        <form
-          className={`flex flex-col w-1/4 gap-4 text-xl`}
-          onSubmit={formSubmitHandler}
-        >
-          {displayedError && (
-            <span className={`text-red-500 font-semibold text-center`}>
-              {displayedError}
-            </span>
-          )}
+    <main className={`flex-1 flex justify-center items-center`}>
+      <section
+        className={`w-1/4 h-fit border-2 border-secondary rounded-lg shadow
+        flex flex-col p-16 items-center gap-8`}
+      >
+        <h1 className={`text-4xl font-bold`}>Sign-In</h1>
+        {login.isLoading ? (
+          <div className={`flex justify-center p-4`}>
+            <p className={`text-2xl font-bold`}>Loading...</p>
+          </div>
+        ) : (
+          <form
+            className={`flex flex-col gap-4 w-full text-xl`}
+            onSubmit={formSubmitHandler}
+          >
+            {displayedError && (
+              <div className={`flex justify-center`}>
+                <span className={`text-xl text-red-500`}>{displayedError}</span>
+              </div>
+            )}
+            <div className={`flex flex-col gap-2`}>
+              <label htmlFor="username" className={`font-semibold`}>
+                Username :
+              </label>
+              <input
+                type="text"
+                id="username"
+                required={true}
+                className={`input`}
+                value={enteredUsername}
+                onChange={(e) => setEnteredUsername(e.target.value)}
+              />
+            </div>
 
-          <div className={`flex flex-col gap-2`}>
-            <label htmlFor="username" className={`font-semibold`}>
-              Username :
-            </label>
-            <input
-              type="text"
-              id="username"
-              required={true}
-              className={`border border-black p-2`}
-              value={enteredUsername}
-              onChange={(e) => setEnteredUsername(e.target.value)}
-            />
-          </div>
-          <div className={`flex flex-col gap-2`}>
-            <label htmlFor="password" className={`font-semibold`}>
-              Password :
-            </label>
-            <input
-              type="password"
-              id="password"
-              required={true}
-              className={`border border-black p-2`}
-              value={enteredPassword}
-              onChange={(e) => setEnteredPassword(e.target.value)}
-            />
-          </div>
+            <div className={`flex flex-col gap-2`}>
+              <label htmlFor="password" className={`font-semibold`}>
+                Password :
+              </label>
+              <input
+                type="password"
+                id="password"
+                required={true}
+                className={`input`}
+                value={enteredPassword}
+                onChange={(e) => setEnteredPassword(e.target.value)}
+              />
+            </div>
 
-          <div className={`flex justify-center`}>
-            <button type={"submit"} className={`p-2 bg-neutral-200`}>
-              Login
-            </button>
-          </div>
-        </form>
-      )}
+            <div className={`flex justify-center mt-4`}>
+              <button type={"submit"} className={`btn`}>
+                Login
+              </button>
+            </div>
+          </form>
+        )}
+        <div className={`flex flex-col text-xl text-center`}>
+          <p>Don't have an account yet ?</p>
+          <p>
+            Register{" "}
+            <Link to={"/register"} className={`underline`}>
+              here
+            </Link>
+          </p>
+        </div>
+      </section>
     </main>
   );
 };
