@@ -26,12 +26,12 @@ const MyTransactionItem: FC<Props> = (props) => {
 
   return (
     <li className={`flex p-4 border-2 border-secondary rounded shadow`}>
-      <div className={`flex-1 flex flex-col gap-2 text-xl`}>
+      <div className={`flex-1 flex flex-col gap-2 text-base md:text-xl`}>
         <h1 className={`font-semibold`}>{transactionTitle}</h1>
         <h2 className={`font-light italic`}>{transactionDate}</h2>
       </div>
       <div className={`flex justify-center items-center`}>
-        <span className={`text-2xl font-bold pr-4`}>
+        <span className={`text-xl md:text-2xl font-bold md:pr-4`}>
           ${props.transaction.totalPrice}
         </span>
       </div>

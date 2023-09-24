@@ -24,7 +24,7 @@ const MyProductItem: FC<Props> = (props) => {
   return (
     <Link
       to={`/products/${props.product.id}`}
-      className={`p-4 flex border-2 rounded items-center gap-8`}
+      className={`p-2 md:p-4 flex border-2 rounded items-center gap-4 md:gap-8`}
     >
       {deleteProduct.isLoading ? (
         <p className={`text-xl text-center flex-1`}>Deleting...</p>
@@ -41,18 +41,21 @@ const MyProductItem: FC<Props> = (props) => {
               />
             )}
           </div>
-          <h1 className={`flex-1 text-xl font-semibold`}>
-            {props.product.title}
-          </h1>
+          <div className={`flex-1 flex flex-col md:flex-row gap-2`}>
+            {/*  Product Title */}
+            <h1 className={`flex-1 text-xl font-semibold`}>
+              {props.product.title}
+            </h1>
 
-          {/*    Actions Menu */}
-          <div className={`flex gap-4 items-center pr-4`}>
-            <Link to={`/edit-product/${props.product.id}`}>
-              <EditIcon className={`w-8 aspect-square`} />
-            </Link>
-            <button onClick={deleteProductHandler}>
-              <DeleteIcon className={`w-8 aspect-square`} />
-            </button>
+            {/*    Actions Menu */}
+            <div className={`flex gap-4 items-center pr-4`}>
+              <Link to={`/edit-product/${props.product.id}`}>
+                <EditIcon className={`w-6 md:w-8 aspect-square`} />
+              </Link>
+              <button onClick={deleteProductHandler}>
+                <DeleteIcon className={`w-6 md:w-8 aspect-square`} />
+              </button>
+            </div>
           </div>
         </>
       )}

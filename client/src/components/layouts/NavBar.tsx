@@ -52,7 +52,7 @@ const NavBar = () => {
       </Link>
 
       {/* Search Bar */}
-      <div className={`flex-1 px-16 hidden md:flex justify-center `}>
+      <div className={`flex-1 hidden md:flex justify-center `}>
         <input
           type="text"
           className={`min-w-[50%] rounded text-xl p-1 px-4 text-accent outline-none`}
