@@ -4,15 +4,18 @@ import CartIcon from "../icons/CartIcon.tsx";
 import LogoutIcon from "../icons/LogoutIcon.tsx";
 import { useGetMe, useLogout } from "../../hooks/Auth.tsx";
 import { useGetCarts } from "../../hooks/Cart.tsx";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import MenuIcon from "../icons/MenuIcon.tsx";
+import SearchBar from "./SearchBar.tsx";
+import { useMediaQuery } from "react-responsive";
 
 const NavBar = () => {
   const getMe = useGetMe();
   const logout = useLogout();
   const getCarts = useGetCarts();
-
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
+  const [isSearchMode, setIsSearchMode] = useState(false);
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
   const openSideMenu = useCallback(
     () => setIsSideMenuOpen(true),
@@ -23,6 +26,10 @@ const NavBar = () => {
     () => setIsSideMenuOpen(false),
     [setIsSideMenuOpen],
   );
+
+  useEffect(() => {
+    if (!isMobile) setIsSearchMode(false);
+  }, [isMobile]);
 
   return (
     <nav
@@ -47,17 +54,21 @@ const NavBar = () => {
       </Link>
 
       {/* App Logo */}
-      <Link to={"/"} className={`text-2xl font-bold`}>
+      <Link
+        to={"/"}
+        reloadDocument={true}
+        className={`text-2xl font-bold ${isSearchMode && "hidden"}`}
+      >
         SwiftSale
       </Link>
 
       {/* Search Bar */}
-      <div className={`flex-1 hidden md:flex justify-center `}>
-        <input
-          type="text"
-          className={`min-w-[50%] rounded text-xl p-1 px-4 text-accent outline-none`}
-          placeholder={"Search Products..."}
-        />
+      <div
+        className={`flex-1 ${
+          isSearchMode ? "flex justify-center [&>*]:min-w-full px-4" : "hidden"
+        } md:flex justify-center`}
+      >
+        <SearchBar />
       </div>
 
       {/* Side Menu Backdrop Element */}
@@ -76,6 +87,14 @@ const NavBar = () => {
         } bg-accent left-0 top-0 bottom-0 z-20
         fixed flex-col gap-8 w-[50%] px-8 py-32 h-screen`}
       >
+        <button
+          onClick={() => {
+            setIsSideMenuOpen(false);
+            setIsSearchMode(true);
+          }}
+        >
+          Search
+        </button>
         {!getMe.data.userId ? (
           <>
             <Link

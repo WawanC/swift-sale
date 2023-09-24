@@ -14,8 +14,8 @@ const initialState: ProductsState = {
 
 export const fetchProductsThunk = createAsyncThunk(
   "product/fetch",
-  async () => {
-    return await getProductsApi();
+  async (filter: { search?: string } | undefined) => {
+    return await getProductsApi({ search: filter?.search });
   },
 );
 

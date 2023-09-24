@@ -11,6 +11,7 @@ import FreeRoute from "../guards/FreeRoute.tsx";
 import CartPage from "../pages/CartPage.tsx";
 import TransactionsPage from "../pages/TransactionsPage.tsx";
 import AccountPage from "../pages/AccountPage.tsx";
+import ProductsPage from "../pages/ProductsPage.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <HomePage />,
+      },
+      {
+        path: "/products",
+        element: <ProductsPage />,
       },
       {
         path: "/products/:productId",

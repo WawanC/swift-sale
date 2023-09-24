@@ -33,16 +33,20 @@ export const useCreateProduct = () => {
   return { mutate, isLoading, error };
 };
 
-export const useGetProducts = () => {
+export const useGetProducts = (filter?: { search?: string }) => {
   const data = useAppSelector((state) => state.product.products);
   const isFetching = useAppSelector((state) => state.product.isFetching);
   const dispatch = useAppDispatch();
 
+  const refetch = (filters?: { search?: string }) => {
+    dispatch(fetchProductsThunk({ search: filters?.search }));
+  };
+
   useEffect(() => {
-    dispatch(fetchProductsThunk());
+    refetch({ search: filter?.search });
   }, []);
 
-  return { data, isFetching };
+  return { data, isFetching, refetch };
 };
 
 export const useGetProduct = (productId: string) => {
@@ -120,4 +124,14 @@ export const useDeleteProduct = (productId: string) => {
   };
 
   return { mutate, isLoading, error };
+};
+
+export const useSearchProducts = () => {
+  const dispatch = useAppDispatch();
+
+  const mutate = async (searchKeyword: string) => {
+    await dispatch(fetchProductsThunk({ search: searchKeyword }));
+  };
+
+  return { mutate };
 };

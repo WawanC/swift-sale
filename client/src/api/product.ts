@@ -23,8 +23,12 @@ export const createProductApi = async (data: CreateProductPayload) => {
   await privateAxios.post("/api/products", formData);
 };
 
-export const getProductsApi = async () => {
-  const response = await axios.get<GetProductsResponse>("/api/products");
+export const getProductsApi = async (filter?: { search?: string }) => {
+  let url = "/api/products";
+
+  if (filter?.search) url += `?search=${filter.search}`;
+
+  const response = await axios.get<GetProductsResponse>(url);
   return response.data.products;
 };
 
