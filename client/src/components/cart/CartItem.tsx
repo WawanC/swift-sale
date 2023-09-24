@@ -27,12 +27,9 @@ const CartItem: FC<Props> = (props) => {
   );
 
   return (
-    <li
-      className={`flex px-4 md:px-8 py-4 border-2 shadow rounded gap-4 items-center`}
-    >
-      <div
-        className={`w-16 md:w-20 aspect-square bg-secondary rounded shadow overflow-hidden`}
-      >
+    <li className={`flex border-2 shadow rounded gap-4 items-center h-[110px]`}>
+      {/*  Cart Item Picture */}
+      <div className={`w-20 md:w-20 h-full bg-secondary overflow-hidden`}>
         {props.item.product.pictures.length > 0 && (
           <img
             src={props.item.product.pictures[0].url}
@@ -41,21 +38,24 @@ const CartItem: FC<Props> = (props) => {
           />
         )}
       </div>
-      <div className={`flex-1 flex flex-col gap-4`}>
-        <h1 className={`text-xl md:text-2xl font-bold`}>
-          {props.item.product.title}
-        </h1>
-        {/* Cart Item Counter Component */}
-        <div className={`flex gap-2 px-4 py-2 rounded border text-xl w-fit`}>
-          <button onClick={deleteCartHandler}>-</button>
-          <span className={`text-center px-4`}>{props.item.count}</span>
-          <button onClick={addCartHandler}>+</button>
+
+      <div className={`flex-1 flex flex-row md:p-2 md:pr-6 pr-8`}>
+        <div className={`flex-1 flex flex-col gap-4`}>
+          <h1 className={`text-xl md:text-2xl font-bold`}>
+            {props.item.product.title}
+          </h1>
+          {/* Cart Item Counter Component */}
+          <div className={`flex gap-2 px-4 py-2 rounded border text-xl w-fit`}>
+            <button onClick={deleteCartHandler}>-</button>
+            <span className={`text-center px-4`}>{props.item.count}</span>
+            <button onClick={addCartHandler}>+</button>
+          </div>
         </div>
-      </div>
-      <div className={`flex justify-center items-center`}>
-        <span className={`text-2xl md:text-2xl font-bold`}>
-          ${props.item.price * props.item.count}
-        </span>
+        <div className={`flex justify-center items-center`}>
+          <span className={`text-2xl md:text-2xl font-bold`}>
+            ${props.item.price * props.item.count}
+          </span>
+        </div>
       </div>
     </li>
   );

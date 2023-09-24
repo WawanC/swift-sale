@@ -91,9 +91,9 @@ const EditProductPage = () => {
   );
 
   return (
-    <main className={`flex-1 flex justify-center items-center`}>
+    <main className={`flex-1 flex justify-center md:items-center`}>
       <section
-        className={`w-[75%] border-2 shadow
+        className={`min-w-full md:min-w-[75%] md:border-2 shadow
       flex flex-col gap-8 py-8`}
       >
         <h1 className={`text-4xl font-bold text-center`}>Edit Product</h1>
@@ -111,10 +111,15 @@ const EditProductPage = () => {
               </div>
             )}
 
-            <form className={`flex-1 flex`} onSubmit={submitFormHandler}>
+            <form
+              className={`flex-1 flex flex-col md:flex-row`}
+              onSubmit={submitFormHandler}
+            >
               {/* Picture Section */}
-              <div className={`flex-1 flex flex-col p-8 items-center gap-8`}>
-                <div className={`w-3/4`}>
+              <div
+                className={`flex-1 flex flex-col justify-center items-center gap-8`}
+              >
+                <div className={`w-full md:w-3/4`}>
                   <ProductPictureDisplay pictures={previewPictures} />
                 </div>
                 <input
@@ -139,7 +144,7 @@ const EditProductPage = () => {
 
               {/* Info Section */}
               <div
-                className={`flex-1 border-l flex flex-col gap-4 text-xl p-8`}
+                className={`flex-1 border-l flex flex-col gap-4 text-xl p-4 md:p-8`}
               >
                 <div className={`flex flex-col gap-2`}>
                   <label htmlFor="title" className={`font-semibold`}>
@@ -160,7 +165,7 @@ const EditProductPage = () => {
                   <label htmlFor="price" className={`font-semibold`}>
                     Price :
                   </label>
-                  <div className={`flex gap-4 items-center w-1/5`}>
+                  <div className={`flex gap-4 items-center w-1/2 md:w-1/5`}>
                     <span className={`text-3xl font-bold`}>$</span>
                     <input
                       id={"price"}
