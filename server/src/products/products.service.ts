@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { v2 } from 'cloudinary';
 import * as fs from 'fs/promises';
 import { ProductPicture } from './entities/product-picture.entity';
@@ -39,8 +39,11 @@ export class ProductsService {
     return newProduct;
   }
 
-  async findAll() {
+  async findAll(filter?: { search?: string }) {
     return await this.productsRepository.find({
+      where: filter && {
+        title: filter.search && Like(`%${filter.search}%`),
+      },
       relations: ['pictures', 'user'],
     });
   }

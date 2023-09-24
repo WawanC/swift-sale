@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   Req,
   UnauthorizedException,
   UploadedFiles,
@@ -20,6 +21,7 @@ import { ValidPictures } from './decorators/valid-pictures.decorator';
 import { AuthGuard } from '../auth/auth.guard';
 import { Request } from 'express';
 import { UsersService } from '../users/users.service';
+import { ProductsQueryDto } from './dto/products-query.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -57,8 +59,10 @@ export class ProductsController {
   }
 
   @Get()
-  async findAll() {
-    const products = await this.productsService.findAll();
+  async findAll(@Query() query: ProductsQueryDto) {
+    const products = await this.productsService.findAll({
+      search: query.search,
+    });
 
     return {
       message: 'Success',

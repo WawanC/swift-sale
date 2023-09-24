@@ -4,7 +4,9 @@ import { Transform } from 'class-transformer';
 export class LoginDto {
   @IsString()
   @IsNotEmpty()
-  @Transform(({ value }) => typeof value === 'string' && value.trim())
+  @Transform(
+    ({ value }) => typeof value === 'string' && value.trim().toLowerCase(),
+  )
   username: string;
 
   @IsString()
