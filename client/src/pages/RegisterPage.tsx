@@ -52,10 +52,11 @@ const RegisterPage = () => {
   const displayedError = error || register.error?.message;
 
   return (
-    <main className={`flex-1 flex justify-center items-center`}>
+    <main className={`flex-1 flex justify-center md:items-center md:py-8`}>
       <section
-        className={`h-fit border-2 border-secondary rounded-lg shadow
-        flex flex-col px-16 py-4 items-center gap-8`}
+        className={`min-w-full md:min-w-[25%] 
+        h-fit md:border-2 border-secondary md:rounded-lg md:shadow
+        flex flex-col md:px-16 px-8 py-4 items-center gap-8`}
       >
         <h1 className={`text-4xl font-bold text-center`}>Create an Account</h1>
         {register.isLoading ? (

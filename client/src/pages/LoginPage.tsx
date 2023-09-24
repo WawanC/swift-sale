@@ -28,10 +28,11 @@ const LoginPage = () => {
   const displayedError = error || login.error?.message;
 
   return (
-    <main className={`flex-1 flex justify-center items-center`}>
+    <main className={`flex-1 flex justify-center md:items-center`}>
       <section
-        className={`w-1/4 h-fit border-2 border-secondary rounded-lg shadow
-        flex flex-col p-16 items-center gap-8`}
+        className={`min-w-full md:min-w-[25%] h-fit 
+        md:border-2 border-secondary md:rounded-lg md:shadow
+        flex flex-col p-8 md:p-16 items-center gap-8`}
       >
         <h1 className={`text-4xl font-bold`}>Sign-In</h1>
         {login.isLoading ? (
