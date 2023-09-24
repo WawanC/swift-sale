@@ -33,13 +33,15 @@ const AccountPage = () => {
           className={`flex flex-col md:flex-row md:border-2 rounded-lg md:shadow p-8`}
         >
           <div className={"flex-1 flex justify-center items-center"}>
-            <AccountIcon className={`w-64 aspect-square`} strokeWidth={0.5} />
+            <AccountIcon className={`w-64 aspect-square`} strokeWidth={0.25} />
           </div>
           <div
             className={`flex-1 flex flex-col gap-2 justify-center items-center`}
           >
-            <h1 className={`text-4xl font-bold`}>{getMe.data.username}</h1>
-            <h2 className={`text-2xl font-semibold`}>{getMe.data.email}</h2>
+            <h1 className={`text-4xl font-semibold`}>{getMe.data.username}</h1>
+            <h2 className={`font-sans font-light text-2xl`}>
+              {getMe.data.email}
+            </h2>
           </div>
         </section>
 

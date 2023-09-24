@@ -7,7 +7,7 @@ type Props = {
 };
 const ProductList: FC<Props> = (props) => {
   return (
-    <ul className={`flex flex-wrap gap-8 justify-center`}>
+    <ul className={`flex flex-wrap gap-2 md:gap-4 justify-center`}>
       {props.products.map((product) => (
         <ProductItem key={product.id} product={product} />
       ))}

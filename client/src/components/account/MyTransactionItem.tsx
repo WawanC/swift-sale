@@ -26,9 +26,9 @@ const MyTransactionItem: FC<Props> = (props) => {
 
   return (
     <li className={`flex p-4 border-2 border-secondary rounded shadow`}>
-      <div className={`flex-1 flex flex-col gap-2 text-base md:text-xl`}>
-        <h1 className={`font-semibold`}>{transactionTitle}</h1>
-        <h2 className={`font-light italic`}>{transactionDate}</h2>
+      <div className={`flex-1 flex flex-col gap-2 md:text-xl`}>
+        <h1>{transactionTitle}</h1>
+        <h2 className={`font-sans font-light italic`}>{transactionDate}</h2>
       </div>
       <div className={`flex justify-center items-center`}>
         <span className={`text-xl md:text-2xl font-bold md:pr-4`}>

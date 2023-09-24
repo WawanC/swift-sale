@@ -41,9 +41,7 @@ const CartItem: FC<Props> = (props) => {
 
       <div className={`flex-1 flex flex-row md:p-2 md:pr-6 pr-8`}>
         <div className={`flex-1 flex flex-col gap-4`}>
-          <h1 className={`text-xl md:text-2xl font-bold`}>
-            {props.item.product.title}
-          </h1>
+          <h1 className={`text-xl md:text-2xl`}>{props.item.product.title}</h1>
           {/* Cart Item Counter Component */}
           <div className={`flex gap-2 px-4 py-2 rounded border text-xl w-fit`}>
             <button onClick={deleteCartHandler}>-</button>
@@ -52,7 +50,7 @@ const CartItem: FC<Props> = (props) => {
           </div>
         </div>
         <div className={`flex justify-center items-center`}>
-          <span className={`text-2xl md:text-2xl font-bold`}>
+          <span className={`text-2xl md:text-2xl font-semibold`}>
             ${props.item.price * props.item.count}
           </span>
         </div>

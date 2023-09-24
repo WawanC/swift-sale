@@ -5,7 +5,7 @@ const HomePage = () => {
   const getProducts = useGetProducts();
 
   return (
-    <main className={`flex flex-col items-center p-8 gap-8 flex-1 text-xl`}>
+    <main className={`flex flex-col items-center py-4 md:p-8 flex-1 text-xl`}>
       {getProducts.isFetching ? (
         <span>Loading...</span>
       ) : (

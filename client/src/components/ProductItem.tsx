@@ -22,11 +22,11 @@ const ProductItem: FC<Props> = (props) => {
     <Link
       to={`/products/${props.product.id}`}
       className={`flex flex-col shadow border-2 border-secondary 
-      p-4 rounded h-fit gap-2 text-xl 
-      w-full md:w-fit items-center`}
+      rounded-lg h-fit text-xl overflow-hidden 
+      w-[45%] md:w-fit items-center`}
     >
       <div
-        className={`w-full md:w-[200px] aspect-square bg-secondary rounded shadow overflow-hidden`}
+        className={`w-full md:w-[200px] aspect-square bg-secondary overflow-hidden`}
       >
         {props.product.pictures.length > 0 && (
           <img
@@ -36,11 +36,11 @@ const ProductItem: FC<Props> = (props) => {
           />
         )}
       </div>
-      <div className={`flex flex-col gap-2 w-full`}>
-        <h1 className={`font-bold`}>{props.product.title}</h1>
-        <h2>$ {props.product.price}</h2>
+      <div className={`flex flex-col gap-2 w-full px-4 py-2`}>
+        <h1 className={`line-clamp-2`}>{props.product.title}</h1>
+        <h2 className={`font-bold`}>$ {props.product.price}</h2>
         <div className={`flex justify-center`}>
-          <button className={`btn text-base`} onClick={addCartHandler}>
+          <button className={`btn text-sm`} onClick={addCartHandler}>
             Add to Cart
           </button>
         </div>

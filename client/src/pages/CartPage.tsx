@@ -43,8 +43,8 @@ const CartPage = () => {
           {/* Cart Info Section */}
           <div className={`flex-[0.5] flex flex-col gap-4`}>
             <div className={`flex flex-col gap-4 md:gap-2 p-4 md:p-8`}>
-              <span className={`text-3xl font-semibold`}>Total Price :</span>
-              <span className={`text-4xl font-bold text-center`}>
+              <span className={`text-3xl`}>Total Price :</span>
+              <span className={`text-4xl font-semibold text-center`}>
                 ${getCarts.totalPrice}
               </span>
             </div>

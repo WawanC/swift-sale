@@ -43,9 +43,7 @@ const MyProductItem: FC<Props> = (props) => {
           </div>
           <div className={`flex-1 flex flex-col md:flex-row gap-2`}>
             {/*  Product Title */}
-            <h1 className={`flex-1 text-xl font-semibold`}>
-              {props.product.title}
-            </h1>
+            <h1 className={`flex-1 text-xl`}>{props.product.title}</h1>
 
             {/*    Actions Menu */}
             <div className={`flex gap-4 items-center pr-4`}>
