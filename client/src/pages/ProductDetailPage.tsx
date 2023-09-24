@@ -45,7 +45,7 @@ const ProductDetailPage = () => {
         getProduct.data && (
           <article
             className={`w-full md:w-3/4 rounded shadow-lg md:border-2 md:py-8
-        flex-col md:flex`}
+        flex-col md:flex md:flex-row`}
           >
             {/* Pictures Section */}
             <section className={`md:flex-[1.25] md:p-4`}>
