@@ -27,6 +27,12 @@ const NavBar = () => {
     [setIsSideMenuOpen],
   );
 
+  const openSearchBar = useCallback(() => {
+    if (!isMobile) return;
+    setIsSideMenuOpen(false);
+    setIsSearchMode(true);
+  }, [isMobile, setIsSideMenuOpen, setIsSearchMode]);
+
   useEffect(() => {
     if (!isMobile) setIsSearchMode(false);
   }, [isMobile]);
@@ -87,12 +93,7 @@ const NavBar = () => {
         } bg-accent left-0 top-0 bottom-0 z-20
         fixed flex-col gap-8 w-[50%] px-8 py-32 h-screen`}
       >
-        <button
-          onClick={() => {
-            setIsSideMenuOpen(false);
-            setIsSearchMode(true);
-          }}
-        >
+        <button onClick={openSearchBar} className={"md:hidden"}>
           Search
         </button>
         {!getMe.data.userId ? (
