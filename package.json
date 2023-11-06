@@ -4,6 +4,7 @@
   "description": "e-commerce app created with react js and nest js",
   "scripts": {
     "dev": "npx turbo dev",
+    "build": "npx turbo build",
     "start": "npx turbo start"
   },
   "keywords": [

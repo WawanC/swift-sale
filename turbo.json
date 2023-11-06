@@ -5,11 +5,10 @@
       "cache": false
     },
     "build": {
-      "dependsOn": ["^build"],
       "cache": false
     },
     "start": {
-      "dependsOn": ["build"]
+      "cache": false
     }
   }
 }
