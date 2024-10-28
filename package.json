@@ -2,6 +2,7 @@
   "name": "swiftsale",
   "version": "1.0.0",
   "description": "e-commerce app created with react js and nest js",
+  "packageManager": "^npm@10.1.0",
   "scripts": {
     "dev": "npx turbo dev",
     "build": "npx turbo build",

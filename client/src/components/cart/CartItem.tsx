@@ -1,4 +1,4 @@
-import { CartItem } from "../../types/cart.ts";
+import type { CartItem } from "../../types/cart.ts";
 import { FC, MouseEventHandler, useCallback } from "react";
 import { useAddCart, useDeleteCart } from "../../hooks/Cart.tsx";
 
@@ -15,7 +15,7 @@ const CartItem: FC<Props> = (props) => {
       e.preventDefault();
       await addCart.mutate({ productId: props.item.product.id, count: 1 });
     },
-    [addCart],
+    [addCart]
   );
 
   const deleteCartHandler: MouseEventHandler = useCallback(
@@ -23,7 +23,7 @@ const CartItem: FC<Props> = (props) => {
       e.preventDefault();
       await deleteCart.mutate({ productId: props.item.product.id, count: 1 });
     },
-    [deleteCart],
+    [deleteCart]
   );
 
   return (
